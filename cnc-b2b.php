@@ -381,7 +381,7 @@ $engrave_fonts = apply_filters(
 ksort($engrave_fonts);
 
 
-require __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+require __DIR__ . '/plugin-update-checker/cnc-plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     'https://github.com/cnc-group-it/cnc-b2b',
     __FILE__,
