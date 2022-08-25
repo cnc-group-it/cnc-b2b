@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CNC B2B
  * Description:       Give Support of b2b business with cnc group
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
