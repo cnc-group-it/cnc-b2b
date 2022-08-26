@@ -14,7 +14,7 @@ include "includes/support_ajax.php";
 include "includes/update_stock.php";
 include "includes/update_status.php";
 include "includes/update_product.php";
-include "includes/customiser.php";
+//include "includes/customiser.php";
 function cnc_b2b_product_get()
 {
     $args = array(
