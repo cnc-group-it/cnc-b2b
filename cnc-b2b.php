@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       Give Support of b2b business with cnc group
- * Version:           0.0.2
+ * Version:           0.0.3
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -14,7 +14,7 @@ include "includes/support_ajax.php";
 include "includes/update_stock.php";
 include "includes/update_status.php";
 include "includes/update_product.php";
-//include "includes/customiser.php";
+include "includes/customiser.php";
 function cnc_b2b_product_get()
 {
     $args = array(
