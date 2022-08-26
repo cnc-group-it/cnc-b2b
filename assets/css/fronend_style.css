@@ -932,6 +932,39 @@ p.bc-product__pricing--cached.bc-product__pricing--visible {
 .theme-botiga .product-grid .button-layout3 a {
     display: block !important;
 }
+.theme-sydney form.cart .sydney-single-addtocart-wrapper{
+    display: block !important;
+    width: 100%;
+}
+.theme-botiga .cart .botiga-single-addtocart-wrapper {
+    display: unset !important;
+    width: 100%;
+}
+.theme-estore .summary .cnc_b2b_personalise_button .Personalise-btn,
+.theme-ecommerce-solution .summary .cnc_b2b_personalise_button .Personalise-btn {
+    width: 100%  !important;
+}
+
+.theme-estore .products-hover-wrapper  .products-hover-block  .Personalise-btn a:hover {
+    background: unset;
+    border: unset;
+}
+.theme-sydney .product-gallery-summary .sydney-single-addtocart-wrapper .cnc_b2b_personalise_button {
+    margin: 20px 0px;
+    width: 100% !important;
+    float: left;
+}
+.ast-single-post div.product.product-type-simple form.cart {
+        flex-direction: column;
+}
+
+.theme-vantage .cnc_b2b_personalise_button .Personalise-btn,
+.theme-generatepress .cnc_b2b_personalise_button .Personalise-btn,
+.open-shop-dark .cnc_b2b_personalise_button .Personalise-btn{
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+}
 
 @media (min-width: 1024px) {
     .slide1 .item-slickbc1 .wrap-content-slide1 {
