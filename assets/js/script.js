@@ -7,6 +7,7 @@ jQuery(document).on("change",".cnc_b2b_order_setting_content .order_type_wrap in
     }
 });
 jQuery(document).on("click",".cnc_b2b_sync_with_woocommerce",function(){
+	jQuery(this).children(".loadding").css("display","block");
     var product_id = jQuery(this).attr("data_id");
     var request_data = {
         "action" : "cnc_b2b_sync_product_with_woocommerce",
@@ -17,6 +18,7 @@ jQuery(document).on("click",".cnc_b2b_sync_with_woocommerce",function(){
         if(responce.status == 200){
             window.location.replace(responce.url.replace(/&amp;/g, "\&"));
         }
+		jQuery(this).children(".loadding").css("display","none");
     });
 });
 jQuery(document).on("click",".order_sync_manully .order_sync_manully_button",function(){
@@ -29,3 +31,15 @@ jQuery(document).on("click",".order_sync_manully .order_sync_manully_button",fun
         location.reload();
     });
 });
+
+jQuery(document).on("click", ".cnc_b2b_accoding_wapper .accoding_item .accoding_header", function() {
+	if (jQuery(this).hasClass('active')) {
+        jQuery(".cnc_b2b_accoding_wapper .accoding_item .accoding_body").slideUp();
+        jQuery(".cnc_b2b_accoding_wapper .accoding_item .accoding_header").removeClass('active');
+    } else {
+        jQuery(".cnc_b2b_accoding_wapper .accoding_item .accoding_header").removeClass('active');
+        jQuery(".cnc_b2b_accoding_wapper .accoding_item .accoding_body").slideUp();
+        jQuery(this).siblings(".accoding_body").slideDown();
+        jQuery(this).addClass('active');
+    }
+ });

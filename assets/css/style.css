@@ -15,6 +15,8 @@
     padding-top: 12px !important;
 }
 
+.cnc_b2b_faq,
+.cnc_b2b_howtouse,
 .cnc_b2b_order_settings_page,
 .cnc_b2b_settings_page {
     padding: 10px;
@@ -125,7 +127,7 @@
     margin: 0px 5px 0 0;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: flex;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -140,4 +142,39 @@
     width: 15px;
     height: 15px;
     border-radius: 50%;
+}
+
+.cnc_b2b_howtouse .howto_video{
+	text-align: center;
+    margin: 50px 0px;
+}
+
+.cnc_b2b_howtouse .howto_guide_info{
+	padding : 20px;
+}
+
+.cnc_b2b_accoding_wapper .accoding_item .accoding_body{
+	display : none;
+}
+.cnc_b2b_accoding_wapper .accoding_item{
+    border: 1px solid;
+    margin-bottom : 1px;
+}
+.cnc_b2b_accoding_wapper .accoding_header {
+    padding: 0px 15px;
+    
+    cursor: pointer;
+}
+.cnc_b2b_accoding_wapper .accoding_body p{
+	padding: 0px 15px;
+}
+.cnc_b2b_accoding_wapper .accoding_header .accoding_title{
+	float : left;
+	width: 97%;
+}
+.cnc_b2b_accoding_wapper .accoding_header .accoding_img img{
+	height : 50px;
+}
+.cnc_b2b_accoding_wapper .accoding_header.active .accoding_img img{
+	transform : rotate(45deg);
 }

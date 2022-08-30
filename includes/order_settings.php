@@ -4,8 +4,12 @@
         update_option("cnc_b2b_sync_order_status",$_POST['cnc_b2b_sync_order_status']);
         update_option("cnc_b2b_sync_order_status_automatically",$_POST['cnc_b2b_sync_order_status_automatically'] == "on" ? "1" : "0");
         update_option("cnc_b2b_sync_order_status_if_other_product_also",$_POST["cnc_b2b_sync_order_status_if_other_product_also"]=="on"?"1":"0");
+        update_option("cnc_b2b_import_category",$_POST["cnc_b2b_import_category"]=="on"?"1":"0");
+        update_option("cnc_b2b_import_all",$_POST["cnc_b2b_import_all"]=="on"?"1":"0");
     }
     
+    $cnc_b2b_import_all = get_option("cnc_b2b_import_all");
+    $cnc_b2b_import_category = get_option("cnc_b2b_import_category");
     $cnc_b2b_sync_order_type = get_option("cnc_b2b_sync_order_type");
     $cnc_b2b_sync_order_status = get_option("cnc_b2b_sync_order_status");
     $cnc_b2b_sync_order_status_automatically = get_option("cnc_b2b_sync_order_status_automatically");
@@ -62,6 +66,22 @@
                 <div class="radio_wrap">
                     <input type="checkbox" name="cnc_b2b_sync_order_status_if_other_product_also" id="cnc_b2b_sync_order_status_if_other_product_also" <?php if($cnc_b2b_sync_order_status_if_other_product_also && $cnc_b2b_sync_order_status_if_other_product_also == "1"){ echo "checked='checked'"; } ?> />
                     <label for="cnc_b2b_sync_order_status_if_other_product_also">Automatically process mixed orders</label>
+                </div>
+            </div>
+            
+            <div class="order_type_wrap">
+                <h3>Import Category ?</h3>
+                <div class="radio_wrap">
+                    <input type="checkbox" name="cnc_b2b_import_category" id="cnc_b2b_import_category" <?php if($cnc_b2b_import_category && $cnc_b2b_import_category == "1"){ echo "checked='checked'"; } ?> />
+                    <label for="cnc_b2b_import_category">Import Category?</label>
+                </div>
+            </div>
+            
+            <div class="order_type_wrap">
+                <h3>Import All ?</h3>
+                <div class="radio_wrap">
+                    <input type="checkbox" name="cnc_b2b_import_all" id="cnc_b2b_import_all" <?php if($cnc_b2b_import_all && $cnc_b2b_import_all == "1"){ echo "checked='checked'"; } ?> />
+                    <label for="cnc_b2b_import_all">Import All ?</label>
                 </div>
             </div>
             

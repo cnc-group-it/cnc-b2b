@@ -34,6 +34,7 @@ if(isset($_POST['sync_data'])){
     $responsedata=wp_remote_get($url,$args);
     $data=wp_remote_retrieve_body($responsedata);
     $body = json_decode($data);
+    
     if($body->statusCode == 200){
         foreach($body->data as $product){
             if(!$product->customiser_data->varialble_option){
@@ -48,6 +49,13 @@ if(isset($_POST['sync_data'])){
                     ),
                 );
                 $query = new WP_Query( $args );
+                
+                // echo "<pre>";
+                // 	print_R($product);
+                // echo "</pre>";
+                // if($product->post->ID == 2273111){
+                // 	print_R($query->post_count);
+                // }
                 if($query->post_count > 0){
                     $post_id = $query->posts[0]->ID;
                 }else{
@@ -70,6 +78,7 @@ if(isset($_POST['sync_data'])){
                 update_post_meta($post_id,"customiser_data",$product->customiser_data);
                 update_post_meta($post_id,"pgs_link",$product->pgs_link);
                 update_post_meta($post_id,"reseller_pricing",$product->reseller_pricing);
+                update_post_meta($post_id,"cnc_b2b_category",$product->category);
                 $product_sync = true;
             }
         }
