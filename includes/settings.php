@@ -33,54 +33,12 @@ if(isset($_POST['sync_data'])){
     );
     $responsedata=wp_remote_get($url,$args);
     $data=wp_remote_retrieve_body($responsedata);
-    $body = json_decode($data);
+    $body = json_decode($data,true);
     
     if($body->statusCode == 200){
         foreach($body->data as $product){
-            if(!$product->customiser_data->varialble_option){
-                $args = array(
-                    'post_type'  => 'pgs_products',
-                    'meta_query' => array(
-                        array(
-                            'key'     => 'bigcommerce_sku',
-                            'value'   => $product->meta->bigcommerce_sku[0],
-                            'compare' => '=',
-                        ),
-                    ),
-                );
-                $query = new WP_Query( $args );
-                
-                // echo "<pre>";
-                // 	print_R($product);
-                // echo "</pre>";
-                // if($product->post->ID == 2273111){
-                // 	print_R($query->post_count);
-                // }
-                if($query->post_count > 0){
-                    $post_id = $query->posts[0]->ID;
-                }else{
-                    $post = $product->post;
-                    $args = array(
-            			'post_content'   => $post->post_content,
-            			'post_excerpt'   => $post->post_excerpt,
-            			'post_name'      => $post->post_name,
-            			'post_title'     => $post->post_title,
-            			'post_type'      => "pgs_products"
-            		);
-            
-            		$post_id = wp_insert_post( $args );
-                }
-                
-                $metas = $product->meta;
-                foreach($metas as $key => $value){
-                    update_post_meta($post_id,$key,$value[0]);
-                }
-                update_post_meta($post_id,"customiser_data",$product->customiser_data);
-                update_post_meta($post_id,"pgs_link",$product->pgs_link);
-                update_post_meta($post_id,"reseller_pricing",$product->reseller_pricing);
-                update_post_meta($post_id,"cnc_b2b_category",$product->category);
-                $product_sync = true;
-            }
+            $post_id = cnc_b2b_create_post_to_pgs_product($product);
+            $product_sync = true;
         }
     }
     
