@@ -2,7 +2,7 @@
 
 
 function cnc_b2b_add_action_scheduler_for_product(){
-    if ( false === as_next_scheduled_action( 'cnc_b2b_get_product_list_update' )) {
+    if ( false === as_next_scheduled_action( 'cnc_b2b_get_product_list_update' ) && get_option("cnc_b2b_import_all") != "1") {
 		as_schedule_recurring_action( strtotime('+1 hour'), HOUR_IN_SECONDS, 'cnc_b2b_get_product_list_update' );
 	}
 }
@@ -30,6 +30,7 @@ function update_product_list_with_pgs(){
         foreach($body->data as $product){
             $args = array(
                 'post_type'  => 'pgs_products',
+				'posts_per_page' => -1,
                 'meta_query' => array(
                     array(
                         'key'     => 'bigcommerce_sku',
