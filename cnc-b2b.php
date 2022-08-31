@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.6
+ * Version:           0.0.7
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -388,7 +388,7 @@ function cnc_b2b_shop_page_add_to_cart_callback($button, $product)
     }
 }
 
-function cnc_b2b_create_post_to_pgs_product($product, $is_publish)
+function cnc_b2b_create_post_to_pgs_product($product)
 {
     if (!$product['customiser_data']['varialble_option']) {
         $args = array(
@@ -412,7 +412,6 @@ function cnc_b2b_create_post_to_pgs_product($product, $is_publish)
                 'post_excerpt'   => $post['post_excerpt'],
                 'post_name'      => $post['post_name'],
                 'post_title'     => $post['post_title'],
-                'post_status'    => ($is_publish ? "publish" : "draft"),
                 'post_type'      => "pgs_products"
             );
 
@@ -432,7 +431,7 @@ function cnc_b2b_create_post_to_pgs_product($product, $is_publish)
     }
 }
 
-function cnc_b2b_create_product_for_wooconnerce($product_id)
+function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 {
     global $image_uploade_url;
     $post = get_post($product_id);
@@ -455,7 +454,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id)
             'post_content'   => $post->post_content,
             'post_excerpt'   => $post->post_excerpt,
             'post_name'      => $post->post_name,
-            'post_status'    => "draft",
+            'post_status'    => ($is_publish ? "publish" : "draft"),
             'post_title'     => $post->post_title,
             'post_type'      => "product",
         );
