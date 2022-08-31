@@ -12,6 +12,7 @@ add_action('cnc_b2b_get_product_list_update', 'update_product_list_with_pgs');
 
 
 function update_product_list_with_pgs(){
+	$logger = wc_get_logger();
     $url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/list";
     $args = array(
         'headers' => array(
@@ -23,62 +24,71 @@ function update_product_list_with_pgs(){
     $responsedata=wp_remote_get($url,$args);
     $data=wp_remote_retrieve_body($responsedata);
     $body = json_decode($data);
-    
+    $logger->debug( "1 -----> ".serialize($body), array( 'source' => 'list-update' ) );
     $post_ids = array();
     $wc_post_ids = array();
     if($body->statusCode == 200){
-        foreach($body->data as $product){
-            $args = array(
-                'post_type'  => 'pgs_products',
-				'posts_per_page' => -1,
-                'meta_query' => array(
-                    array(
-                        'key'     => 'bigcommerce_sku',
-                        'value'   => $product->meta->bigcommerce_sku[0],
-                        'compare' => '=',
-                    ),
-                ),
-            );
-            $query = new WP_Query( $args );
-            
-            if($query->post_count > 0){
-                $post_id = $query->posts[0]->ID;
-                $post_ids[] = $post_id;
-                $wc_post_ids[] = get_post_meta($post_id,"cnc_b2b_woocommerce_product_id",true);
-            }
-        }
-    }
-    $args  = array(
-        'post_type'      => 'pgs_products',
-        'post__not_in'   => $post_ids,
-    );
-    $the_query = new WP_Query( $args );
-    
-    if ($the_query->have_posts() ) {
-        while( $the_query->have_posts() ) {
-            $the_query->the_post();
-            wp_delete_post(get_the_ID());
-        }
+    	if(!empty($body->data)){
+        	foreach($body->data as $product){
+	            $args = array(
+	                'post_type'  => 'pgs_products',
+					'posts_per_page' => -1,
+	                'meta_query' => array(
+	                    array(
+	                        'key'     => 'bigcommerce_sku',
+	                        'value'   => $product->meta->bigcommerce_sku[0],
+	                        'compare' => '=',
+	                    ),
+	                ),
+	            );
+	            $query = new WP_Query( $args );
+	            
+	            if($query->post_count > 0){
+	                $post_id = $query->post->ID;
+	                $post_ids[] = $post_id;
+	                $wc_post_ids[] = get_post_meta($post_id,"cnc_b2b_woocommerce_product_id",true);
+	            }
+	        }
+    	}
     }
     
-    
-    $args = array(
-        'post_type'  => 'product',
-        'meta_query' => array(
-            array(
-                'key'     => 'cnc_b2b_bigcommerce_product',
-                'value'   => true,
-                'compare' => '=',
-            ),
-        ),
-        'post__not_in'   => $wc_post_ids,
-    );
-    $wc_query = new WP_Query( $args );
-    
-    if ($wc_query->have_posts() ) {
-        while( $wc_query->have_posts() ) {
-            $wc_query->the_post();
-            wp_delete_post(get_the_ID());
-        }
+	$logger->debug( "2 -----> ".serialize($post_ids), array( 'source' => 'list-update' ) );
+    if(!empty($post_ids)){
+	    $args  = array(
+	        'post_type'      => 'pgs_products',
+	        'post__not_in'   => $post_ids,
+			'posts_per_page' => -1,
+	    );
+	    $the_query = new WP_Query( $args );
+	    
+	    if ($the_query->have_posts() ) {
+	        while( $the_query->have_posts() ) {
+	            $the_query->the_post();
+	            wp_delete_post(get_the_ID());
+	        }
+	    }
+	    
+	    
+	    $args = array(
+	        'post_type'  => 'product',
+			'posts_per_page' => -1,
+	        'meta_query' => array(
+	            array(
+	                'key'     => 'cnc_b2b_bigcommerce_product',
+	                'value'   => true,
+	                'compare' => '=',
+	            ),
+	        ),
+	        'post__not_in'   => $wc_post_ids,
+	    );
+	    $wc_query = new WP_Query( $args );
+	    
+	    $logger->debug( "3 -----> ".json_encode($wc_query->posts), array( 'source' => 'list-update' ) );
+	    if ($wc_query->have_posts() ) {
+	        while( $wc_query->have_posts() ) {
+	            $wc_query->the_post();
+	            wp_delete_post(get_the_ID());
+	        }
+	    }
     }
 }
