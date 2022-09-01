@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.8
+ * Version:           0.0.9
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -476,25 +476,39 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     if (get_option("cnc_b2b_import_category") == "1") {
         if (get_post_meta($product_id, "cnc_b2b_category", true)) {
             foreach (get_post_meta($product_id, "cnc_b2b_category", true) as $pgs_term) {
-                $category = get_term_by('name', $pgs_term->name, 'product_cat');
+                $category = get_term_by('name', $pgs_term['name'], 'product_cat');
                 if ($category) {
                     wp_set_post_terms($post_id, $category->term_id, "product_cat", true);
                 } else {
                     $term = wp_insert_term(
-                        $pgs_term->name,   // the term 
+                        $pgs_term['name'],   // the term 
                         'product_cat', // the taxonomy
                         array(
-                            'description' => $pgs_term->description,
-                            'slug'        => $pgs_term->slug,
+                            'description' => $pgs_term['description'],
+                            'slug'        => $pgs_term['slug'],
                         )
                     );
-                    wp_set_post_terms($post_id, $category['term_id'], "product_cat", true);
+                    wp_set_post_terms($post_id, $term['term_id'], "product_cat", true);
+
+                    $image_is_exist = cnc_b2b_is_image_exist($pgs_term['background_image']);
+                    if ($image_is_exist) {
+                        $attachmentId = $image_is_exist;
+                    } else {
+                        $file = array();
+                        $file['name'] = "term-" . $pgs_term['slug'] . ".jpg";
+                        $file['tmp_name'] = download_url($pgs_term['background_image']);
+                        $attachmentId = media_handle_sideload($file);
+                        update_post_meta($attachmentId, "cnc_b2b_reference_url", $pgs_term['background_image']);
+                    }
+                    if (!is_wp_error($attachmentId)) {
+                        update_term_meta($term['term_id'], "thumbnail_id", $attachmentId);
+                    }
                 }
             }
         }
     }
-    update_post_meta($post_id, "_price", $prices->RRP);
-    update_post_meta($post_id, "_regular_price", $prices->RRP);
+    update_post_meta($post_id, "_price", $prices['RRP']);
+    update_post_meta($post_id, "_regular_price", $prices['RRP']);
     //update_post_meta($post_id,"_sale_price",$prices[8]);
     update_post_meta($post_id, "cnc_b2b_bigcommerce_product", true);
     update_post_meta($product_id, "cnc_b2b_sync_with_woocommerce", true);
@@ -502,7 +516,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     update_post_meta($post_id, "reseller_pricing", get_post_meta($product_id, "reseller_pricing", true));
 
     //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
-    $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)->Images);
+    $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
 
     $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
     $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);

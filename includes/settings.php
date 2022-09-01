@@ -68,7 +68,10 @@ if(isset($_POST['sync_data'])){
     $clipart_body = json_decode($clipart_data);
     
     update_option("cnc_b2b_cliparts",$clipart_body->data);
-    update_product_list_with_pgs();
+    
+    if(get_option("cnc_b2b_import_all") != "1"){
+    	update_product_list_with_pgs();
+    }
 }
     
 $apikey = get_option("pgs_products_api_key");
