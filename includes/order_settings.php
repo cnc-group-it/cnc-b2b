@@ -83,6 +83,20 @@
                     <input type="checkbox" name="cnc_b2b_import_all" id="cnc_b2b_import_all" <?php if($cnc_b2b_import_all && $cnc_b2b_import_all == "1"){ echo "checked='checked'"; } ?> />
                     <label for="cnc_b2b_import_all">Import All ?</label>
                 </div>
+                <?php if($cnc_b2b_import_all && $cnc_b2b_import_all == "1"){
+                	global $wpdb;
+                	$count = $wpdb->get_var("
+                        SELECT count(*) FROM " . $wpdb->prefix . "actionscheduler_actions 
+                            WHERE 
+                            hook = 'cnc_b2b_fatch_singal_page' AND
+                            status = 'pending'
+                    ");
+                ?>
+                		<div>
+                			<p><b>Note : </b><?php echo $count; ?> Actions Left. <a href="<?php echo site_url(); ?>/wp-admin/admin.php?page=wc-status&tab=action-scheduler&status=pending&s=cnc_b2b_fatch_singal_page">View Pending Action</a></p>
+                		</div>
+                <?php
+                } ?>
             </div>
             
             <div class="order_type_wrap">

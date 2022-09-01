@@ -34,9 +34,8 @@ if(isset($_POST['sync_data'])){
     $responsedata=wp_remote_get($url,$args);
     $data=wp_remote_retrieve_body($responsedata);
     $body = json_decode($data,true);
-    
-    if($body->statusCode == 200){
-        foreach($body->data as $product){
+    if($body['statusCode'] == 200){
+        foreach($body['data'] as $product){
             $post_id = cnc_b2b_create_post_to_pgs_product($product);
             $product_sync = true;
         }
