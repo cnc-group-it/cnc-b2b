@@ -182,23 +182,25 @@
         }
     });
                 
-        
-    jQuery('#imageWrapper').resizable({
-        aspectRatio: true
-
-        }).rotatable({
-        stop: function (event, ui) {
-        
-                jQuery('#imageRotation').val(ui.angle.current);
-        }
-        }).draggable({ 
-    //	containment: "parent",
-        stop: function (event, ui) {
-            //console.log(ui);
-            jQuery('#imageLeft').val(ui.position.left);
-            jQuery('#imageTop').val(ui.position.top);
-        }
-    });
+    if (typeof resizable === 'function') {
+    
+	    jQuery('#imageWrapper').resizable({
+	        aspectRatio: true
+	
+	        }).rotatable({
+	        stop: function (event, ui) {
+	        
+	                jQuery('#imageRotation').val(ui.angle.current);
+	        }
+	        }).draggable({ 
+	    //	containment: "parent",
+	        stop: function (event, ui) {
+	            //console.log(ui);
+	            jQuery('#imageLeft').val(ui.position.left);
+	            jQuery('#imageTop').val(ui.position.top);
+	        }
+	    });
+    }
     
     
         jQuery('#imageWrapper').attr('data-value',5);

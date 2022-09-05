@@ -53,6 +53,7 @@ function cnc_b2b_get_singal_page_pgs_product($page)
         )
     );
     $responsedata = wp_remote_get($url, $args);
+    
     $data = wp_remote_retrieve_body($responsedata);
     $body = json_decode($data, true);
     if ($body['statusCode'] == 200) {

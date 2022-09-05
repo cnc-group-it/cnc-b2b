@@ -162,12 +162,12 @@ function cnc_b2b_add_personalise_button_product_page()
                         else :
                         ?>
 
-                            <div class="width_100" <?php if ($postdata['multiple_fonts'] == 1) {
+                            <div class="width_100" <?php if (isset($postdata['multiple_fonts']) && $postdata['multiple_fonts'] == 1) {
                                                         echo 'style="display:none"';
                                                     } ?>>
                                 <b>Font Choice</b>
                             </div>
-                            <div class="width_100" <?php if ($postdata['multiple_fonts'] == 1) {
+                            <div class="width_100" <?php if (isset($postdata['multiple_fonts']) &&$postdata['multiple_fonts'] == 1) {
                                                         echo 'style="display:none"';
                                                     } ?>>
                                 <select name="engrave_fonts" id="engrave_fonts">
@@ -205,7 +205,7 @@ function cnc_b2b_add_personalise_button_product_page()
                         endif;
                         ?>
 
-                        <?php if ($postdata['engrave_enable_clip_art']) : ?>
+                        <?php if (isset($postdata['engrave_enable_clip_art'])) : ?>
                             <div class="width_100">
                                 <b>Clip Art</b>
                             </div>
