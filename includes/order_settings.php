@@ -6,6 +6,7 @@
         update_option("cnc_b2b_sync_order_status_if_other_product_also",$_POST["cnc_b2b_sync_order_status_if_other_product_also"]=="on"?"1":"0");
         update_option("cnc_b2b_import_category",$_POST["cnc_b2b_import_category"]=="on"?"1":"0");
         update_option("cnc_b2b_import_all",$_POST["cnc_b2b_import_all"]=="on"?"1":"0");
+        update_option("cnc_b2b_dynamic_pricing",$_POST["cnc_b2b_dynamic_pricing"]=="on"?"1":"0");
     }
     
     $cnc_b2b_import_all = get_option("cnc_b2b_import_all");
@@ -14,6 +15,7 @@
     $cnc_b2b_sync_order_status = get_option("cnc_b2b_sync_order_status");
     $cnc_b2b_sync_order_status_automatically = get_option("cnc_b2b_sync_order_status_automatically");
     $cnc_b2b_sync_order_status_if_other_product_also = get_option("cnc_b2b_sync_order_status_if_other_product_also");
+    $cnc_b2b_dynamic_pricing = get_option("cnc_b2b_dynamic_pricing");
 ?>
 <div class="cnc_b2b_order_settings_page">
     <div class="page_title cnc_special_title">
@@ -97,6 +99,14 @@
                 		</div>
                 <?php
                 } ?>
+            </div>
+            
+            <div class="order_type_wrap">
+                <h3>Dynamic Pricing ?</h3>
+                <div class="radio_wrap">
+                    <input type="checkbox" name="cnc_b2b_dynamic_pricing" id="cnc_b2b_dynamic_pricing" <?php if($cnc_b2b_dynamic_pricing && $cnc_b2b_dynamic_pricing == "1"){ echo "checked='checked'"; } ?> />
+                    <label for="cnc_b2b_dynamic_pricing">Import Category?</label>
+                </div>
             </div>
             
             <div class="order_type_wrap">

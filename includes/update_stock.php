@@ -59,7 +59,12 @@ function cnc_b2b_product_stock_update(){
         }
         update_post_meta($product_id, '_manage_stock', "yes");
         update_post_meta($product_id, '_stock', (int)$value['Stock Level']);
-        update_post_meta($product_id, 'reseller_pricing', $value);
+        
+        if(get_option("cnc_b2b_dynamic_pricing") == "1"){
+    		update_post_meta($product_id, "_price", $value['RRP']);
+    		update_post_meta($product_id, "_regular_price", $value['RRP']);
+        	update_post_meta($product_id, 'reseller_pricing', $value);
+        }
         
         $product_url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/singal/?sku=".$key;
         $product_args = array(

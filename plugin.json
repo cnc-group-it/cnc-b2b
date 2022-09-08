@@ -1,6 +1,6 @@
 {
 	"name": "Personalised Gift Supply - Listing Tool",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"download_url": "https://github.com/cnc-group-it/cnc-b2b/archive/refs/heads/master.zip",
 	"author": "Akshar Soft Solutions",
 	"author_homepage": "http://aksharsoftsolutions.com/",
@@ -11,16 +11,16 @@
 		"custom_section": "This is a custom section labeled 'Custom Section'."
 	},
 	"icons": {
-		"1x": "http://w-shadow.com/files/external-update-example/assets/icon-128x128.png",
-		"2x": "http://w-shadow.com/files/external-update-example/assets/icon-256x256.png"
+		"1x": "https://personalisedgiftsupply.com/wp-content/uploads/2022/09/Personalised_Gift_Supply_Logo_Web.png",
+		"2x": "https://personalisedgiftsupply.com/wp-content/uploads/2022/09/Personalised_Gift_Supply_Logo_Web.png"
 	},
 	"banners": {
-		"low": "http://w-shadow.com/files/external-update-example/assets/banner-772x250.png",
-		"high": "http://w-shadow.com/files/external-update-example/assets/banner-1544x500.png"
+		"low": "https://personalisedgiftsupply.com/wp-content/uploads/cnc_b2b/banner-772x250.jpg",
+		"high": "https://personalisedgiftsupply.com/wp-content/uploads/cnc_b2b/banner-1544x500.jpg"
 	},
 	"translations": [],
-	"rating": 0,
-	"num_ratings": 0,
-	"downloaded": 0,
-	"active_installs": 0
+	"rating": 90,
+	"num_ratings": 123,
+	"downloaded": 1234,
+	"active_installs": 12345
 }

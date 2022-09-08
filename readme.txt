@@ -1,9 +1,10 @@
 === Plugin Name ===
-Contributors: malay45
-Tags: Engrave
-Requires at least: 5.0.0
-Tested up to: 6.0.2
-Stable tag: 0.0.10
+Contributors: (this should be a list of wordpress.org userid's)
+Donate link: https://example.com/
+Tags: tag1, tag2
+Requires at least: 4.7
+Tested up to: 5.4
+Stable tag: 4.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
