@@ -1,6 +1,7 @@
 <?php
 // add_action("wp",function(){
 //     if($_GET['sss']=='sss'){
+//     	echo "<pre>";
 //         cnc_b2b_product_stock_update();
 //         exit;
 //     }
@@ -24,7 +25,19 @@ function cnc_b2b_product_stock_update(){
     foreach($results as $row){
         $skus[] = $row['meta_value'];
     }
+    
+    if(count($skus) > 10){
+    	foreach(array_chunk($skus,10) as $skus){
+    		cnc_b2b_update_product_stock_by_skus($skus);
+    	}
+    }
+    
+}
+
+function cnc_b2b_update_product_stock_by_skus($skus){
+	
     $url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/stock/?skus=".implode(",",$skus);
+   
     $args = array(
         'headers' => array(
           'Content-Type' => 'application/json',
@@ -61,8 +74,9 @@ function cnc_b2b_product_stock_update(){
         update_post_meta($product_id, '_stock', (int)$value['Stock Level']);
         
         if(get_option("cnc_b2b_dynamic_pricing") == "1"){
-    		update_post_meta($product_id, "_price", $value['RRP']);
-    		update_post_meta($product_id, "_regular_price", $value['RRP']);
+		    $regular_price = cnc_b2b_get_regular_price($value);
+		    update_post_meta($post_id, "_price", $regular_price);
+		    update_post_meta($post_id, "_regular_price", $regular_price);
         	update_post_meta($product_id, 'reseller_pricing', $value);
         }
         
@@ -83,5 +97,12 @@ function cnc_b2b_product_stock_update(){
             update_post_meta($product_id,"customiser_data",$customiser_data);
         }
     }
-    
+}
+
+function cnc_b2b_get_regular_price($value){
+	$margin = (float)get_option("cnc_b2b_margin_for_ragular_price");
+    $round_up_price = (float)get_option("cnc_b2b_round_up_the_nearest");
+	$dropship_for_1 = (float)$value['Dropship For 1'];
+	$regular_price = round(($dropship_for_1 * 1.2) * $margin) - $round_up_price;
+    return $regular_price;
 }

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.11
+ * Version:           0.0.12
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -394,44 +394,52 @@ function cnc_b2b_shop_page_add_to_cart_callback($button, $product)
 
 function cnc_b2b_create_post_to_pgs_product($product)
 {
-    if (!$product['customiser_data']['varialble_option']) {
-        $args = array(
-            'post_type'  => 'pgs_products',
-            'meta_query' => array(
-                array(
-                    'key'     => 'bigcommerce_sku',
-                    'value'   => $product['meta']['bigcommerce_sku'][0],
-                    'compare' => '=',
-                ),
-            ),
-        );
-        $query = new WP_Query($args);
-
-        if ($query->post_count > 0) {
-            $post_id = $query->posts[0]->ID;
-        } else {
-            $post = $product['post'];
-            $args = array(
-                'post_content'   => $post['post_content'],
-                'post_excerpt'   => $post['post_excerpt'],
-                'post_name'      => $post['post_name'],
-                'post_title'     => $post['post_title'],
-                'post_type'      => "pgs_products"
-            );
-
-            $post_id = wp_insert_post($args);
-        }
-
-        $metas = $product['meta'];
-        foreach ($metas as $key => $value) {
-            update_post_meta($post_id, $key, $value[0]);
-        }
-        update_post_meta($post_id, "customiser_data", $product['customiser_data']);
-        update_post_meta($post_id, "pgs_link", $product['pgs_link']);
-        update_post_meta($post_id, "reseller_pricing", $product['reseller_pricing']);
-        update_post_meta($post_id, "cnc_b2b_category", $product['category']);
-
-        return $post_id;
+	if($product['reseller_pricing']){
+	    if (!$product['customiser_data']['varialble_option']) {
+	        $args = array(
+	            'post_type'  => 'pgs_products',
+	            'meta_query' => array(
+	                array(
+	                    'key'     => 'bigcommerce_sku',
+	                    'value'   => $product['meta']['bigcommerce_sku'][0],
+	                    'compare' => '=',
+	                ),
+	            ),
+	        );
+	        $query = new WP_Query($args);
+	
+	        if ($query->post_count > 0) {
+	            $post_id = $query->posts[0]->ID;
+	        } else {
+	            $post = $product['post'];
+	            $args = array(
+	                'post_content'   => $post['post_content'],
+	                'post_excerpt'   => $post['post_excerpt'],
+	                'post_name'      => $post['post_name'],
+	                'post_title'     => $post['post_title'],
+	                'post_type'      => "pgs_products"
+	            );
+	
+	            $post_id = wp_insert_post($args);
+	        }
+	
+	        $metas = $product['meta'];
+	        foreach ($metas as $key => $value) {
+	            update_post_meta($post_id, $key, $value[0]);
+	        }
+	        update_post_meta($post_id, "customiser_data", $product['customiser_data']);
+	        update_post_meta($post_id, "pgs_link", $product['pgs_link']);
+	        update_post_meta($post_id, "reseller_pricing", $product['reseller_pricing']);
+	        update_post_meta($post_id, "cnc_b2b_category", $product['category']);
+	
+	        return $post_id;
+	    }
+	    else{
+	    	return false;
+	    }
+	}
+	else{
+    	return false;
     }
 }
 
@@ -439,120 +447,128 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 {
     global $image_uploade_url;
     $post = get_post($product_id);
-
-    $product_args = array(
-        'post_type'  => 'product',
-        'meta_query' => array(
-            array(
-                'key'     => 'cnc_b2b_bigcommerce_sku',
-                'value'   => get_post_meta($product_id, "bigcommerce_sku", true),
-                'compare' => '=',
-            ),
-        )
-    );
-    $query = new WP_Query($product_args);
-    if ($query->post_count > 0) {
-        $post_id = $query->posts[0]->ID;
-    } else {
-        $args = array(
-            'post_content'   => $post->post_content,
-            'post_excerpt'   => $post->post_excerpt,
-            'post_name'      => $post->post_name,
-            'post_status'    => ($is_publish ? "publish" : "draft"),
-            'post_title'     => $post->post_title,
-            'post_type'      => "product",
-        );
-        $post_id = wp_insert_post($args);
-    }
-    $prices = get_post_meta($product_id, "reseller_pricing", true);
-
-    update_post_meta($post_id, "cnc_b2b_bigcommerce_sku", get_post_meta($product_id, "bigcommerce_sku", true));
-    update_post_meta($post_id, "cnc_b2b_bigcommerce_source_data", get_post_meta($product_id, "bigcommerce_source_data", true));
-    update_post_meta($post_id, "cnc_b2b_bigcommerce_modifier_data", get_post_meta($product_id, "bigcommerce_modifier_data", true));
-    update_post_meta($post_id, "cnc_b2b_csv_price_data", get_post_meta($product_id, "csv_price_data", true));
-    update_post_meta($post_id, "customiser_data", get_post_meta($product_id, "customiser_data", true));
-    update_post_meta($post_id, "cnc_b2b_product_id", $product_id);
-
-    if (get_option("cnc_b2b_import_category") == "1") {
-        if (get_post_meta($product_id, "cnc_b2b_category", true)) {
-            foreach (get_post_meta($product_id, "cnc_b2b_category", true) as $pgs_term) {
-                $category = get_term_by('name', $pgs_term['name'], 'product_cat');
-                if ($category) {
-                    wp_set_post_terms($post_id, $category->term_id, "product_cat", true);
-                } else {
-                    $term = wp_insert_term(
-                        $pgs_term['name'],   // the term 
-                        'product_cat', // the taxonomy
-                        array(
-                            'description' => $pgs_term['description'],
-                            'slug'        => $pgs_term['slug'],
-                        )
-                    );
-                    wp_set_post_terms($post_id, $term['term_id'], "product_cat", true);
-
-                    $image_is_exist = cnc_b2b_is_image_exist($pgs_term['background_image']);
-                    if ($image_is_exist) {
-                        $attachmentId = $image_is_exist;
-                    } else {
-                        $file = array();
-                        $file['name'] = "term-" . $pgs_term['slug'] . ".jpg";
-                        $file['tmp_name'] = download_url($pgs_term['background_image']);
-                        $attachmentId = media_handle_sideload($file);
-                        update_post_meta($attachmentId, "cnc_b2b_reference_url", $pgs_term['background_image']);
-                    }
-                    if (!is_wp_error($attachmentId)) {
-                        update_term_meta($term['term_id'], "thumbnail_id", $attachmentId);
-                    }
-                }
-            }
-        }
-    }
-    update_post_meta($post_id, "_price", $prices['RRP']);
-    update_post_meta($post_id, "_regular_price", $prices['RRP']);
-    //update_post_meta($post_id,"_sale_price",$prices[8]);
-    update_post_meta($post_id, "cnc_b2b_bigcommerce_product", true);
-    update_post_meta($product_id, "cnc_b2b_sync_with_woocommerce", true);
-    update_post_meta($product_id, "cnc_b2b_woocommerce_product_id", $post_id);
-    update_post_meta($post_id, "reseller_pricing", get_post_meta($product_id, "reseller_pricing", true));
-
-    //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
-    $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
-
-    $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-    $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
-    if ($image_is_exist) {
-        $attachmentId = $image_is_exist;
-    } else {
-        $file = array();
-        $file['name'] = get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-        $file['tmp_name'] = download_url($thamnail_url);
-        $attachmentId = media_handle_sideload($file, $post_id);
-        update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
-    }
-    if (!is_wp_error($attachmentId)) {
-        set_post_thumbnail($post_id, $attachmentId);
-    }
-
-    $gallery_images = array();
-    foreach ($images as $key => $image) {
-        $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image);
-        if ($image_is_exist) {
-            $attachmentId = $image_is_exist;
-        } else {
-            $file = array();
-            $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-            $file['tmp_name'] = download_url($image_uploade_url . $image);
-            $attachmentId = media_handle_sideload($file);
-            update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
-        }
-        if (!is_wp_error($attachmentId)) {
-            $gallery_images[] = $attachmentId;
-        }
-    }
-    update_post_meta($post_id, '_product_image_gallery', implode(',', $gallery_images));
-    //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
-
-    return $post_id;
+	$prices_data = get_post_meta($product_id,"reseller_pricing",true);
+	
+	if($prices_data && $prices_data['RRP'] && $prices_data['Images']){
+	    $product_args = array(
+	        'post_type'  => 'product',
+	        'meta_query' => array(
+	            array(
+	                'key'     => 'cnc_b2b_bigcommerce_sku',
+	                'value'   => get_post_meta($product_id, "bigcommerce_sku", true),
+	                'compare' => '=',
+	            ),
+	        )
+	    );
+	    $query = new WP_Query($product_args);
+	    if ($query->post_count > 0) {
+	        $post_id = $query->posts[0]->ID;
+	    } else {
+	        $args = array(
+	            'post_content'   => $post->post_content,
+	            'post_excerpt'   => $post->post_excerpt,
+	            'post_name'      => $post->post_name,
+	            'post_status'    => ($is_publish ? "publish" : "draft"),
+	            'post_title'     => $post->post_title,
+	            'post_type'      => "product",
+	        );
+	        $post_id = wp_insert_post($args);
+	    }
+	    $prices = get_post_meta($product_id, "reseller_pricing", true);
+	
+	    update_post_meta($post_id, "cnc_b2b_bigcommerce_sku", get_post_meta($product_id, "bigcommerce_sku", true));
+	    update_post_meta($post_id, "cnc_b2b_bigcommerce_source_data", get_post_meta($product_id, "bigcommerce_source_data", true));
+	    update_post_meta($post_id, "cnc_b2b_bigcommerce_modifier_data", get_post_meta($product_id, "bigcommerce_modifier_data", true));
+	    update_post_meta($post_id, "cnc_b2b_csv_price_data", get_post_meta($product_id, "csv_price_data", true));
+	    update_post_meta($post_id, "customiser_data", get_post_meta($product_id, "customiser_data", true));
+	    update_post_meta($post_id, "cnc_b2b_product_id", $product_id);
+	
+	    if (get_option("cnc_b2b_import_category") == "1") {
+	        if (get_post_meta($product_id, "cnc_b2b_category", true)) {
+	            foreach (get_post_meta($product_id, "cnc_b2b_category", true) as $pgs_term) {
+	                $category = get_term_by('name', $pgs_term['name'], 'product_cat');
+	                if ($category) {
+	                    wp_set_post_terms($post_id, $category->term_id, "product_cat", true);
+	                } else {
+	                    $term = wp_insert_term(
+	                        $pgs_term['name'],   // the term 
+	                        'product_cat', // the taxonomy
+	                        array(
+	                            'description' => $pgs_term['description'],
+	                            'slug'        => $pgs_term['slug'],
+	                        )
+	                    );
+	                    wp_set_post_terms($post_id, $term['term_id'], "product_cat", true);
+	
+	                    $image_is_exist = cnc_b2b_is_image_exist($pgs_term['background_image']);
+	                    if ($image_is_exist) {
+	                        $attachmentId = $image_is_exist;
+	                    } else {
+	                        $file = array();
+	                        $file['name'] = "term-" . $pgs_term['slug'] . ".jpg";
+	                        $file['tmp_name'] = download_url($pgs_term['background_image']);
+	                        $attachmentId = media_handle_sideload($file);
+	                        update_post_meta($attachmentId, "cnc_b2b_reference_url", $pgs_term['background_image']);
+	                    }
+	                    if (!is_wp_error($attachmentId)) {
+	                        update_term_meta($term['term_id'], "thumbnail_id", $attachmentId);
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
+		$regular_price = cnc_b2b_get_regular_price($prices);
+	    update_post_meta($post_id, "_price", $regular_price);
+	    update_post_meta($post_id, "_regular_price", $regular_price);
+	    
+	    //update_post_meta($post_id,"_sale_price",$prices[8]);
+	    update_post_meta($post_id, "cnc_b2b_bigcommerce_product", true);
+	    update_post_meta($product_id, "cnc_b2b_sync_with_woocommerce", true);
+	    update_post_meta($product_id, "cnc_b2b_woocommerce_product_id", $post_id);
+	    update_post_meta($post_id, "reseller_pricing", get_post_meta($product_id, "reseller_pricing", true));
+	
+	    //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
+	    $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
+	
+	    $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+	    $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
+	    if ($image_is_exist) {
+	        $attachmentId = $image_is_exist;
+	    } else {
+	        $file = array();
+	        $file['name'] = get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+	        $file['tmp_name'] = download_url($thamnail_url);
+	        $attachmentId = media_handle_sideload($file, $post_id);
+	        update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
+	    }
+	    if (!is_wp_error($attachmentId)) {
+	        set_post_thumbnail($post_id, $attachmentId);
+	    }
+	
+	    $gallery_images = array();
+	    foreach ($images as $key => $image) {
+	        $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image);
+	        if ($image_is_exist) {
+	            $attachmentId = $image_is_exist;
+	        } else {
+	            $file = array();
+	            $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+	            $file['tmp_name'] = download_url($image_uploade_url . $image);
+	            $attachmentId = media_handle_sideload($file);
+	            update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
+	        }
+	        if (!is_wp_error($attachmentId)) {
+	            $gallery_images[] = $attachmentId;
+	        }
+	    }
+	    update_post_meta($post_id, '_product_image_gallery', implode(',', $gallery_images));
+	    //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
+	
+	    return $post_id;
+	}else{
+		return false;
+	}
 }
 global $engrave_fonts;
 $engrave_fonts = apply_filters(

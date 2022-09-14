@@ -7,6 +7,9 @@
         update_option("cnc_b2b_import_category",$_POST["cnc_b2b_import_category"]=="on"?"1":"0");
         update_option("cnc_b2b_import_all",$_POST["cnc_b2b_import_all"]=="on"?"1":"0");
         update_option("cnc_b2b_dynamic_pricing",$_POST["cnc_b2b_dynamic_pricing"]=="on"?"1":"0");
+        update_option("cnc_b2b_margin_for_ragular_price",$_POST["cnc_b2b_margin_for_ragular_price"]);
+        update_option("cnc_b2b_round_up_the_nearest",$_POST["cnc_b2b_round_up_the_nearest"]);
+        
     }
     
     $cnc_b2b_import_all = get_option("cnc_b2b_import_all");
@@ -16,6 +19,8 @@
     $cnc_b2b_sync_order_status_automatically = get_option("cnc_b2b_sync_order_status_automatically");
     $cnc_b2b_sync_order_status_if_other_product_also = get_option("cnc_b2b_sync_order_status_if_other_product_also");
     $cnc_b2b_dynamic_pricing = get_option("cnc_b2b_dynamic_pricing");
+    $cnc_b2b_margin_for_ragular_price = get_option("cnc_b2b_margin_for_ragular_price");
+    $cnc_b2b_round_up_the_nearest = get_option("cnc_b2b_round_up_the_nearest");
 ?>
 <div class="cnc_b2b_order_settings_page">
     <div class="page_title cnc_special_title">
@@ -106,6 +111,20 @@
                 <div class="radio_wrap">
                     <input type="checkbox" name="cnc_b2b_dynamic_pricing" id="cnc_b2b_dynamic_pricing" <?php if($cnc_b2b_dynamic_pricing && $cnc_b2b_dynamic_pricing == "1"){ echo "checked='checked'"; } ?> />
                     <label for="cnc_b2b_dynamic_pricing">Import Category?</label>
+                </div>
+            </div>
+            
+            <div class="order_type_wrap">
+                <h3>Margin for Regular Price : </h3>
+                <div class="radio_wrap">
+                    <input type="text" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
+                </div>
+            </div>
+            
+            <div class="order_type_wrap">
+                <h3>Round up the nearest : </h3>
+                <div class="radio_wrap">
+                    <input type="text" name="cnc_b2b_round_up_the_nearest" id="cnc_b2b_round_up_the_nearest" value="<?php if($cnc_b2b_round_up_the_nearest){ echo $cnc_b2b_round_up_the_nearest; } ?>" />
                 </div>
             </div>
             
