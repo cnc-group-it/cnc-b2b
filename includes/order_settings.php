@@ -9,6 +9,7 @@
         update_option("cnc_b2b_dynamic_pricing",$_POST["cnc_b2b_dynamic_pricing"]=="on"?"1":"0");
         update_option("cnc_b2b_margin_for_ragular_price",$_POST["cnc_b2b_margin_for_ragular_price"]);
         update_option("cnc_b2b_round_up_the_nearest",$_POST["cnc_b2b_round_up_the_nearest"]);
+        update_option("cnc_b2b_price_for_product",$_POST["cnc_b2b_price_for_product"]);
         
     }
     
@@ -21,6 +22,7 @@
     $cnc_b2b_dynamic_pricing = get_option("cnc_b2b_dynamic_pricing");
     $cnc_b2b_margin_for_ragular_price = get_option("cnc_b2b_margin_for_ragular_price");
     $cnc_b2b_round_up_the_nearest = get_option("cnc_b2b_round_up_the_nearest");
+    $cnc_b2b_price_for_product = get_option("cnc_b2b_price_for_product");
 ?>
 <div class="cnc_b2b_order_settings_page">
     <div class="page_title cnc_special_title">
@@ -115,19 +117,31 @@
             </div>
             
             <div class="order_type_wrap">
-                <h3>Margin for Regular Price : </h3>
+                <h3>Select Pricing For Product ?</h3>
                 <div class="radio_wrap">
-                    <input type="text" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
+                	<select class="pricing_option" name="cnc_b2b_price_for_product">
+                		<option value="set_own_price" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "set_own_price"){ echo "selected"; } ?>>Set my own pricing</option>
+                		<option value="suggested_rrp" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "suggested_rrp"){ echo "selected"; } ?>>Suggested RRP</option>
+                		<option value="custom_margin" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "custom_margin"){ echo "selected"; } ?>>Custom Margin</option>
+                	</select>
                 </div>
             </div>
             
-            <div class="order_type_wrap">
-                <h3>Round up the nearest : </h3>
-                <div class="radio_wrap">
-                    <input type="text" name="cnc_b2b_round_up_the_nearest" id="cnc_b2b_round_up_the_nearest" value="<?php if($cnc_b2b_round_up_the_nearest){ echo $cnc_b2b_round_up_the_nearest; } ?>" />
-                </div>
+            <div class="cnc_b2b_margin_pricing" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "custom_margin"){ echo "style='display: block;'"; }else{ echo "style='display: none;'"; } ?>>
+	            <div class="order_type_wrap">
+	                <h3>Margin for Regular Price : </h3>
+	                <div class="radio_wrap">
+	                    <input type="text" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
+	                </div>
+	            </div>
+	            
+	            <div class="order_type_wrap">
+	                <h3>Round up the nearest : </h3>
+	                <div class="radio_wrap">
+	                    <input type="text" name="cnc_b2b_round_up_the_nearest" id="cnc_b2b_round_up_the_nearest" value="<?php if($cnc_b2b_round_up_the_nearest){ echo $cnc_b2b_round_up_the_nearest; } ?>" />
+	                </div>
+	            </div>
             </div>
-            
             <div class="order_type_wrap">
                 <div class="pgs_button">
                         <input type="submit" name="cnc_b2b_save_sync_order_setting" value="Save Settings"/>

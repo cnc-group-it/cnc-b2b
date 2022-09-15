@@ -15,8 +15,10 @@ jQuery(document).on("click",".cnc_b2b_sync_with_woocommerce",function(){
     }
     jQuery.post( cnc_b2b_ajax.ajaxurl ,request_data, function( data ) {
         var responce =  JSON.parse(data)
-        if(responce.status == 200){
-            window.location.replace(responce.url.replace(/&amp;/g, "\&"));
+        if(responce.status == 200 && responce.url){
+           window.location.replace(responce.url.replace(/&amp;/g, "\&"));
+        }else{
+        	alert("There are sothing wants to wrong. Product was not created")
         }
 		jQuery(this).children(".loadding").css("display","none");
     });
@@ -43,3 +45,12 @@ jQuery(document).on("click", ".cnc_b2b_accoding_wapper .accoding_item .accoding_
         jQuery(this).addClass('active');
     }
  });
+ 
+jQuery(document).on("change",".cnc_b2b_order_setting_content .pricing_option",function(){
+    let opt_val = jQuery(".cnc_b2b_order_setting_content .pricing_option option:selected").val();
+    if(opt_val == 'custom_margin') {
+    	jQuery(".cnc_b2b_margin_pricing").slideDown();
+    }else{
+    	jQuery(".cnc_b2b_margin_pricing").slideUp();
+    }
+});

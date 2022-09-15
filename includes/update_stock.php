@@ -25,11 +25,12 @@ function cnc_b2b_product_stock_update(){
     foreach($results as $row){
         $skus[] = $row['meta_value'];
     }
-    
     if(count($skus) > 10){
     	foreach(array_chunk($skus,10) as $skus){
     		cnc_b2b_update_product_stock_by_skus($skus);
     	}
+    }else{
+    	cnc_b2b_update_product_stock_by_skus($skus);
     }
     
 }
@@ -46,11 +47,12 @@ function cnc_b2b_update_product_stock_by_skus($skus){
         )
     );
     $responsedata=wp_remote_get($url,$args);
-    
     $data=wp_remote_retrieve_body($responsedata);
     
     $body = json_decode($data,true);
     $data = $body['data'];
+    
+    
     foreach($data as $key => $value){
         $args = array(
           'post_type'       => 'product',
@@ -73,12 +75,15 @@ function cnc_b2b_update_product_stock_by_skus($skus){
         update_post_meta($product_id, '_manage_stock', "yes");
         update_post_meta($product_id, '_stock', (int)$value['Stock Level']);
         
-        if(get_option("cnc_b2b_dynamic_pricing") == "1"){
-		    $regular_price = cnc_b2b_get_regular_price($value);
-		    update_post_meta($post_id, "_price", $regular_price);
-		    update_post_meta($post_id, "_regular_price", $regular_price);
-        	update_post_meta($product_id, 'reseller_pricing', $value);
-        }
+	    $regular_price = cnc_b2b_get_regular_price($value);
+	  
+     //   echo "<pre>";
+	    // print_r($regular_price);
+	    // exit;
+	    update_post_meta($product_id, "_price", $regular_price);
+	    update_post_meta($product_id, "_regular_price", $regular_price);
+    	update_post_meta($product_id, 'reseller_pricing', $value);
+        
         
         $product_url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/singal/?sku=".$key;
         $product_args = array(
@@ -100,9 +105,15 @@ function cnc_b2b_update_product_stock_by_skus($skus){
 }
 
 function cnc_b2b_get_regular_price($value){
-	$margin = (float)get_option("cnc_b2b_margin_for_ragular_price");
-    $round_up_price = (float)get_option("cnc_b2b_round_up_the_nearest");
-	$dropship_for_1 = (float)$value['Dropship For 1'];
-	$regular_price = round(($dropship_for_1 * 1.2) * $margin) - $round_up_price;
-    return $regular_price;
+	if(get_option("cnc_b2b_price_for_product") == "custom_margin"){
+		$margin = (float)get_option("cnc_b2b_margin_for_ragular_price");
+	    $round_up_price = (float)get_option("cnc_b2b_round_up_the_nearest");
+		$dropship_for_1 = (float)$value['Dropship For 1'];
+		$regular_price = round(($dropship_for_1 * 1.2) * $margin) - $round_up_price;
+	    return $regular_price;
+	}else if(get_option("cnc_b2b_price_for_product") == "suggested_rrp"){
+		return $value['RRP'];
+	}else{
+		return 0;
+	}
 }

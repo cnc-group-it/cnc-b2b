@@ -41,6 +41,7 @@ function cnc_b2b_order_sync_by_id($order_id){
 }
 
 function cnc_b2b_order_item_sync_to_pgs($order,$item_id,$item){
+	
     $custom_field = get_post_meta( $product_id, '_tmcartepo_data', true);
     $data = array(
         "order_id" => $order->get_id(),
