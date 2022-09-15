@@ -80,9 +80,10 @@
             
             <div class="order_type_wrap">
                 <h3>Import Category ?</h3>
+                <p>When enabled this will import our recommended categories into your site and list products into those categories.</p>
                 <div class="radio_wrap">
                     <input type="checkbox" name="cnc_b2b_import_category" id="cnc_b2b_import_category" <?php if($cnc_b2b_import_category && $cnc_b2b_import_category == "1"){ echo "checked='checked'"; } ?> />
-                    <label for="cnc_b2b_import_category">Import Category?</label>
+                    <label for="cnc_b2b_import_category">Enabled</label>
                 </div>
             </div>
             
@@ -110,14 +111,19 @@
             
             <div class="order_type_wrap">
                 <h3>Dynamic Pricing ?</h3>
+                <p>This I believe is now redundant as it has been superseded by the below option</p>
                 <div class="radio_wrap">
                     <input type="checkbox" name="cnc_b2b_dynamic_pricing" id="cnc_b2b_dynamic_pricing" <?php if($cnc_b2b_dynamic_pricing && $cnc_b2b_dynamic_pricing == "1"){ echo "checked='checked'"; } ?> />
-                    <label for="cnc_b2b_dynamic_pricing">Import Category?</label>
+                    <label for="cnc_b2b_dynamic_pricing">Enabled ?</label>
                 </div>
             </div>
             
             <div class="order_type_wrap">
-                <h3>Select Pricing For Product ?</h3>
+                <h3>Pricing  ?</h3>
+                <p>Here you're able to state how you would like your products priced.</p>
+                <p>Set my own pricing - Will initially pull our RRP but you're then able to manually set each product to the price you would like</p>
+                <p>Suggested RRP - This will take use our RRP and continually update the RRP as products become cheaper or more expensive your RRP will fluctuate up and down making you roughly a 35% margin on each item.</p>
+                <p>Custom Margin - This will allow you to set your own margin, after this has been selected you will need to click save which will enable two extra fields "Margin" and  "Deduct from pricing" once your margin has been set your products will be rounded up to the nearest pound you can then set the value you wish to deduct from the price, for example you wish for your products to round to the nearest 99p you would select 0.01 in this field.</p>
                 <div class="radio_wrap">
                 	<select class="pricing_option" name="cnc_b2b_price_for_product">
                 		<option value="set_own_price" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "set_own_price"){ echo "selected"; } ?>>Set my own pricing</option>
@@ -129,14 +135,14 @@
             
             <div class="cnc_b2b_margin_pricing" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "custom_margin"){ echo "style='display: block;'"; }else{ echo "style='display: none;'"; } ?>>
 	            <div class="order_type_wrap">
-	                <h3>Margin for Regular Price : </h3>
+	                <h3>Margin: </h3>
 	                <div class="radio_wrap">
 	                    <input type="text" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
 	                </div>
 	            </div>
 	            
 	            <div class="order_type_wrap">
-	                <h3>Round up the nearest : </h3>
+	                <h3>Deduct from pricing : </h3>
 	                <div class="radio_wrap">
 	                    <input type="text" name="cnc_b2b_round_up_the_nearest" id="cnc_b2b_round_up_the_nearest" value="<?php if($cnc_b2b_round_up_the_nearest){ echo $cnc_b2b_round_up_the_nearest; } ?>" />
 	                </div>
