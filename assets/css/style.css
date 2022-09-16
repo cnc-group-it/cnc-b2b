@@ -52,6 +52,9 @@
     width: 100%;
     display: inline-block;
 }
+.cnc_b2b_margin_pricing .cnc_b2b_margin_error {
+    color: red;
+}
 .cnc_b2b_settings_page .info_section input{
     padding: 5px;
     width: 50%;

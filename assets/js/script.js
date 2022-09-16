@@ -54,3 +54,13 @@ jQuery(document).on("change",".cnc_b2b_order_setting_content .pricing_option",fu
     	jQuery(".cnc_b2b_margin_pricing").slideUp();
     }
 });
+
+
+jQuery(document).on("change",'.cnc_b2b_order_setting_content .margin_input input[name="cnc_b2b_margin_for_ragular_price"]',function(){
+	var input_val = parseFloat(jQuery(this).val());
+	if(input_val > 1.99 || input_val < 1.01){
+		jQuery(".cnc_b2b_margin_error").css("display","block");
+	}else{
+		jQuery(".cnc_b2b_margin_error").css("display","none");
+	}
+});

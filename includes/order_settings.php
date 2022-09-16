@@ -6,7 +6,6 @@
         update_option("cnc_b2b_sync_order_status_if_other_product_also",$_POST["cnc_b2b_sync_order_status_if_other_product_also"]=="on"?"1":"0");
         update_option("cnc_b2b_import_category",$_POST["cnc_b2b_import_category"]=="on"?"1":"0");
         update_option("cnc_b2b_import_all",$_POST["cnc_b2b_import_all"]=="on"?"1":"0");
-        update_option("cnc_b2b_dynamic_pricing",$_POST["cnc_b2b_dynamic_pricing"]=="on"?"1":"0");
         update_option("cnc_b2b_margin_for_ragular_price",$_POST["cnc_b2b_margin_for_ragular_price"]);
         update_option("cnc_b2b_round_up_the_nearest",$_POST["cnc_b2b_round_up_the_nearest"]);
         update_option("cnc_b2b_price_for_product",$_POST["cnc_b2b_price_for_product"]);
@@ -19,7 +18,6 @@
     $cnc_b2b_sync_order_status = get_option("cnc_b2b_sync_order_status");
     $cnc_b2b_sync_order_status_automatically = get_option("cnc_b2b_sync_order_status_automatically");
     $cnc_b2b_sync_order_status_if_other_product_also = get_option("cnc_b2b_sync_order_status_if_other_product_also");
-    $cnc_b2b_dynamic_pricing = get_option("cnc_b2b_dynamic_pricing");
     $cnc_b2b_margin_for_ragular_price = get_option("cnc_b2b_margin_for_ragular_price");
     $cnc_b2b_round_up_the_nearest = get_option("cnc_b2b_round_up_the_nearest");
     $cnc_b2b_price_for_product = get_option("cnc_b2b_price_for_product");
@@ -65,7 +63,7 @@
                 <p>If this is ticked your orders will automatically be updated to completed once the order has been dispatched from Personalised Gift Supply.</p>
                 <div class="radio_wrap">
                     <input type="checkbox" name="cnc_b2b_sync_order_status_automatically" id="cnc_b2b_sync_order_status_automatically" <?php if($cnc_b2b_sync_order_status_automatically && $cnc_b2b_sync_order_status_automatically == "1"){ echo "checked='checked'"; } ?> />
-                    <label for="cnc_b2b_sync_order_status_automatically">Order Status Change Automatically Synchronize with CNC</label>
+                    <label for="cnc_b2b_sync_order_status_automatically">Automictically Process Orders</label>
                 </div>
             </div>
             
@@ -110,15 +108,6 @@
             </div>
             
             <div class="order_type_wrap">
-                <h3>Dynamic Pricing ?</h3>
-                <p>This I believe is now redundant as it has been superseded by the below option</p>
-                <div class="radio_wrap">
-                    <input type="checkbox" name="cnc_b2b_dynamic_pricing" id="cnc_b2b_dynamic_pricing" <?php if($cnc_b2b_dynamic_pricing && $cnc_b2b_dynamic_pricing == "1"){ echo "checked='checked'"; } ?> />
-                    <label for="cnc_b2b_dynamic_pricing">Enabled ?</label>
-                </div>
-            </div>
-            
-            <div class="order_type_wrap">
                 <h3>Pricing  ?</h3>
                 <p>Here you're able to state how you would like your products priced.</p>
                 <p>Set my own pricing - Will initially pull our RRP but you're then able to manually set each product to the price you would like</p>
@@ -136,9 +125,10 @@
             <div class="cnc_b2b_margin_pricing" <?php if($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "custom_margin"){ echo "style='display: block;'"; }else{ echo "style='display: none;'"; } ?>>
 	            <div class="order_type_wrap">
 	                <h3>Margin: </h3>
-	                <div class="radio_wrap">
-	                    <input type="text" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
+	                <div class="radio_wrap margin_input">
+	                    <input type="number" step="0.01" min="1.01" max="1.99" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
 	                </div>
+	                <p class="cnc_b2b_margin_error" <?php if(floatval($cnc_b2b_margin_for_ragular_price) < 1.01 || floatval($cnc_b2b_margin_for_ragular_price) > 1.99 ){ echo "style='display: block;'"; }else{ echo "style='display: none;'"; } ?>>Margin should be less then 1.99 and greter then 1.01 .</p>
 	            </div>
 	            
 	            <div class="order_type_wrap">
