@@ -411,6 +411,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
 	    if (!$product['customiser_data']['varialble_option']) {
 	        $args = array(
 	            'post_type'  => 'pgs_products',
+		    'post_status' => 'any',
 	            'meta_query' => array(
 	                array(
 	                    'key'     => 'bigcommerce_sku',
