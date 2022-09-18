@@ -23,23 +23,27 @@ if(isset($_POST["verify"]) || isset($_POST['sync_data'])){
         }
 }
 if(isset($_POST['sync_data'])){
-    $url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/list";
-    $args = array(
-        'headers' => array(
-          'Content-Type' => 'application/json',
-          'token' => $_POST["tokan_name"],
-          'username' => $_POST["pgs_username"],
-        )
-    );
-    $responsedata=wp_remote_get($url,$args);
-    $data=wp_remote_retrieve_body($responsedata);
-    $body = json_decode($data,true);
-    if($body['statusCode'] == 200){
-        foreach($body['data'] as $product){
-            $post_id = cnc_b2b_create_post_to_pgs_product($product);
-            $product_sync = true;
-        }
+    if(get_option("cnc_b2b_import_all") != "1"){
+            $url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/list";
+            $args = array(
+                'headers' => array(
+                  'Content-Type' => 'application/json',
+                  'token' => $_POST["tokan_name"],
+                  'username' => $_POST["pgs_username"],
+                )
+            );
+            $responsedata=wp_remote_get($url,$args);
+            $data=wp_remote_retrieve_body($responsedata);
+            $body = json_decode($data,true);
+            if($body['statusCode'] == 200){
+                foreach($body['data'] as $product){
+                    $post_id = cnc_b2b_create_post_to_pgs_product($product);
+                    $product_sync = true;
+                }
+            }
     }
+        
+        
     
     $fonts_url="https://personalisedgiftsupply.com/api/reseller-api/v1/content/fonts";
     $fonts_args = array(
