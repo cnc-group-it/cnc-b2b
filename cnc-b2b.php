@@ -466,6 +466,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 	if($prices_data && $prices_data['RRP']!='' && $prices_data['Images']!=''){
 	    $product_args = array(
 	        'post_type'  => 'product',
+		 'post_status' => 'any',
 	        'meta_query' => array(
 	            array(
 	                'key'     => 'cnc_b2b_bigcommerce_sku',
