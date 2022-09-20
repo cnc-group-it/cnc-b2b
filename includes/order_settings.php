@@ -126,9 +126,10 @@
 	            <div class="order_type_wrap">
 	                <h3>Margin: </h3>
 	                <div class="radio_wrap margin_input">
-	                    <input type="number" step="0.01" min="1.01" max="1.99" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
+	                    <input type="number" step="1" min="1" max="99" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if($cnc_b2b_margin_for_ragular_price){ echo $cnc_b2b_margin_for_ragular_price; } ?>" />
+	                    <span> %</span>
 	                </div>
-	                <p class="cnc_b2b_margin_error" <?php if(floatval($cnc_b2b_margin_for_ragular_price) < 1.01 || floatval($cnc_b2b_margin_for_ragular_price) > 1.99 ){ echo "style='display: block;'"; }else{ echo "style='display: none;'"; } ?>>Margin should be less then 1.99 and greter then 1.01 .</p>
+	                <p class="cnc_b2b_margin_error" <?php if(floatval($cnc_b2b_margin_for_ragular_price) < 1 || floatval($cnc_b2b_margin_for_ragular_price) > 99 ){ echo "style='display: block;'"; }else{ echo "style='display: none;'"; } ?>>Margin should be less then 99 and greter then 1 .</p>
 	            </div>
 	            
 	            <div class="order_type_wrap">

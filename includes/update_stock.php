@@ -106,7 +106,8 @@ function cnc_b2b_update_product_stock_by_skus($skus){
 
 function cnc_b2b_get_regular_price($value){
 	if(get_option("cnc_b2b_price_for_product") == "custom_margin"){
-		$margin = (float)get_option("cnc_b2b_margin_for_ragular_price");
+		$margin_per = (float)get_option("cnc_b2b_margin_for_ragular_price");
+		$margin = ($margin_per / 100) + 1;
 	    $round_up_price = (float)get_option("cnc_b2b_round_up_the_nearest");
 		$dropship_for_1 = (float)$value['Dropship For 1'];
 		$regular_price = round(($dropship_for_1 * 1.2) * $margin) - $round_up_price;

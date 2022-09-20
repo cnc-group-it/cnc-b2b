@@ -58,7 +58,7 @@ jQuery(document).on("change",".cnc_b2b_order_setting_content .pricing_option",fu
 
 jQuery(document).on("change",'.cnc_b2b_order_setting_content .margin_input input[name="cnc_b2b_margin_for_ragular_price"]',function(){
 	var input_val = parseFloat(jQuery(this).val());
-	if(input_val > 1.99 || input_val < 1.01){
+	if(input_val > 99 || input_val < 1){
 		jQuery(".cnc_b2b_margin_error").css("display","block");
 	}else{
 		jQuery(".cnc_b2b_margin_error").css("display","none");
