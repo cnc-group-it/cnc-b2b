@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.18
+ * Version:           0.0.19
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -19,6 +19,7 @@ function cnc_b2b_activate() {
     update_option("cnc_b2b_sync_order_status_automatically","1");
     update_option("cnc_b2b_dynamic_pricing","1");
     update_option("cnc_b2b_price_for_product","suggested_rrp");
+    update_option("cnc_b2b_margin_for_ragular_price","20");
 }
 register_activation_hook( __FILE__, 'cnc_b2b_activate' );
 
@@ -407,7 +408,7 @@ function cnc_b2b_shop_page_add_to_cart_callback($button, $product)
 function cnc_b2b_create_post_to_pgs_product($product)
 {
 	
-	if($product['reseller_pricing'] && $product['RRP'] && ($product['meta']['_thumbnail_id'] || $product['reseller_pricing']['Images']!='')){
+	if($product['reseller_pricing'] && $product['RRP'] && $product['meta']['_thumbnail_id']!='' ){
 	    if (!$product['customiser_data']['varialble_option']) {
 	        $args = array(
 	            'post_type'  => 'pgs_products',
@@ -464,7 +465,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 	$prices_data = get_post_meta($product_id,"reseller_pricing",true);
 	$thumbnail = get_post_meta($product_id,"_thumbnail_id",true);
 	//print_R($prices_data);
-	if($prices_data && $prices_data['RRP']!='' && ($thumbnail || $prices_data['Images']!='')){
+	if($prices_data && $prices_data['RRP'] && $thumbnail!='' ){
 	    $product_args = array(
 	        'post_type'  => 'product',
 	        'meta_query' => array(

@@ -71,7 +71,9 @@
     border: none;
     cursor: pointer;
 }
-
+.cnc_b2b_order_settings_page .not_allowed{
+	cursor: not-allowed !important;
+}
 .cnc_b2b_order_settings_page .order_type_wrap {
     margin-bottom: 20px;
 }

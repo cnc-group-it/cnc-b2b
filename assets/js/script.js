@@ -56,11 +56,16 @@ jQuery(document).on("change",".cnc_b2b_order_setting_content .pricing_option",fu
 });
 
 
-jQuery(document).on("change",'.cnc_b2b_order_setting_content .margin_input input[name="cnc_b2b_margin_for_ragular_price"]',function(){
-	var input_val = parseFloat(jQuery(this).val());
-	if(input_val > 99 || input_val < 1){
+jQuery(document).on("change keyup",'.cnc_b2b_order_setting_content .margin_input input[name="cnc_b2b_margin_for_ragular_price"]',function(){
+	var input_val = parseInt(jQuery(this).val());
+	if(!isNaN(input_val)){
+		jQuery(this).val(input_val);
+	}
+	if(input_val > 99 || input_val < 1 || isNaN(input_val)){
 		jQuery(".cnc_b2b_margin_error").css("display","block");
+		jQuery(".pgs_button input[name='cnc_b2b_save_sync_order_setting']").prop('disabled', true).addClass("not_allowed");
 	}else{
 		jQuery(".cnc_b2b_margin_error").css("display","none");
+		jQuery(".pgs_button input[name='cnc_b2b_save_sync_order_setting']").prop('disabled', false).removeClass("not_allowed");
 	}
 });
