@@ -1,9 +1,9 @@
 <?php
 // add_action("wp",function(){
-//     if($_GET['sss']=='sss'){
+//     if($_GET['ssss']=='ssss'){
 //         echo "<pre>";
 
-//         cnc_b2b_get_all_pgs_product_count();
+//         cnc_b2b_get_singal_page_pgs_product(2);
 //         exit;
 //         }
 //     });
@@ -53,13 +53,12 @@ function cnc_b2b_get_singal_page_pgs_product($page)
         )
     );
     $responsedata = wp_remote_get($url, $args);
-    
     $data = wp_remote_retrieve_body($responsedata);
     $body = json_decode($data, true);
     if ($body['statusCode'] == 200) {
         foreach ($body['data']['product'] as $product) {
             $post_id = cnc_b2b_create_post_to_pgs_product($product);
-
+			
             if ($post_id) {
                 cnc_b2b_create_product_for_wooconnerce($post_id, true);
             }
