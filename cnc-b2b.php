@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.21
+ * Version:           0.0.22
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -14,12 +14,11 @@
  * Activate the plugin.
  */
 function cnc_b2b_activate() { 
-    update_option("cnc_b2b_sync_order_type","sync_on_status_change");
-    update_option("cnc_b2b_sync_order_status","wc-pending");
-    update_option("cnc_b2b_sync_order_status_automatically","1");
-    update_option("cnc_b2b_dynamic_pricing","1");
-    update_option("cnc_b2b_price_for_product","suggested_rrp");
-    update_option("cnc_b2b_margin_for_ragular_price","20");
+    add_option("cnc_b2b_sync_order_type","sync_on_status_change");
+    add_option("cnc_b2b_sync_order_status","wc-processing");
+    add_option("cnc_b2b_sync_order_status_automatically","1");
+    add_option("cnc_b2b_price_for_product","suggested_rrp");
+    add_option("cnc_b2b_margin_for_ragular_price","20");
 }
 register_activation_hook( __FILE__, 'cnc_b2b_activate' );
 
@@ -407,10 +406,9 @@ function cnc_b2b_shop_page_add_to_cart_callback($button, $product)
 
 function cnc_b2b_create_post_to_pgs_product($product)
 {
-    // print_r($product);
+     //print_r($product['reseller_pricing']);
 	if($product['reseller_pricing'] && $product['meta']['_thumbnail_id']!='' ){
 		
-    // print_r($product);
                 		
 	    if (!$product['customiser_data']['varialble_option']) {
 	        $args = array(
@@ -440,7 +438,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
 	
 	            $post_id = wp_insert_post($args);
 	        }
-	
+			
 	        $metas = $product['meta'];
 	        foreach ($metas as $key => $value) {
 	            update_post_meta($post_id, $key, $value[0]);
@@ -453,6 +451,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
 	        return $post_id;
 	    }
 	    else{
+	    	
 	    	return false;
 	    }
 	}

@@ -3,7 +3,7 @@
 //     if($_GET['ssss']=='ssss'){
 //         echo "<pre>";
 
-//         cnc_b2b_get_singal_page_pgs_product(2);
+//         cnc_b2b_get_singal_page_pgs_product(25);
 //         exit;
 //         }
 //     });
@@ -44,6 +44,7 @@ add_action('cnc_b2b_fatch_singal_page', 'cnc_b2b_get_singal_page_pgs_product');
 
 function cnc_b2b_get_singal_page_pgs_product($page)
 {
+	wp_mail("shreyash.makadia@aksharsoftsolutions.com","Test For B2B",json_encode($page));
     $url = "https://personalisedgiftsupply.com/api/reseller-api/v1/product/all_products/?page=" . $page . "&size=10";
     $args = array(
         'headers' => array(
@@ -55,6 +56,7 @@ function cnc_b2b_get_singal_page_pgs_product($page)
     $responsedata = wp_remote_get($url, $args);
     $data = wp_remote_retrieve_body($responsedata);
     $body = json_decode($data, true);
+    
     if ($body['statusCode'] == 200) {
         foreach ($body['data']['product'] as $product) {
             $post_id = cnc_b2b_create_post_to_pgs_product($product);
