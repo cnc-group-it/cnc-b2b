@@ -91,6 +91,7 @@ function cnc_b2b_order_item_sync_to_pgs($order,$item_id,$item){
     $responsedata=wp_remote_post($url,$args);
     $data=wp_remote_retrieve_body($responsedata);
     $body = json_decode($data, true);
+    // print_r($data);
     update_post_meta($order->get_id(),"cnc_order_id",$body['data']['cnc_order_id']);
     if($body['statusCode'] == 200){
         update_post_meta($order->get_id(),"cnc_b2b_order_created",true);

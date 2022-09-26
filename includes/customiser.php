@@ -369,7 +369,7 @@ function cnc_b2b_add_cart_item_data($cart_item_data, $product_id)
     for ($x = 1; $x <= 10; $x++) {
         if (isset($_POST['font_value_' . $x])) {
             if (!empty($_POST['font_value_' . $x])) {
-                $cart_item_data['font_value_' . $x] = $_POST['font_value_' . $x];
+                $cart_item_data['font_value_' . $x] = stripslashes($_POST['font_value_' . $x]);
             }
         }
     }

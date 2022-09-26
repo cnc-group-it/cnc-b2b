@@ -44,7 +44,6 @@ add_action('cnc_b2b_fatch_singal_page', 'cnc_b2b_get_singal_page_pgs_product');
 
 function cnc_b2b_get_singal_page_pgs_product($page)
 {
-	wp_mail("shreyash.makadia@aksharsoftsolutions.com","Test For B2B",json_encode($page));
     $url = "https://personalisedgiftsupply.com/api/reseller-api/v1/product/all_products/?page=" . $page . "&size=10";
     $args = array(
         'headers' => array(

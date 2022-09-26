@@ -30,7 +30,7 @@ jQuery(document).on("click",".order_sync_manully .order_sync_manully_button",fun
         "order_id": order_id
     }
     jQuery.post( cnc_b2b_ajax.ajaxurl ,request_data, function( data ) {
-        location.reload();
+       location.reload();
     });
 });
 
