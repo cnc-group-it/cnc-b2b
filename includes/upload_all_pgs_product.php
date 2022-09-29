@@ -44,7 +44,7 @@ add_action('cnc_b2b_fatch_singal_page', 'cnc_b2b_get_singal_page_pgs_product');
 
 function cnc_b2b_get_singal_page_pgs_product($page)
 {
-    $url = "https://personalisedgiftsupply.com/api/reseller-api/v1/product/all_products/?page=" . $page . "&size=10";
+    $url = "https://personalisedgiftsupply.com/api/reseller-api/v1/product/all_products/?page=" . $page . "&size=10&max_rrp=".get_option("cnc_b2b_maximum_rrp");
     $args = array(
         'headers' => array(
             'Content-Type' => 'application/json',

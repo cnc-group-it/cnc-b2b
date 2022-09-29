@@ -9,6 +9,7 @@
         update_option("cnc_b2b_margin_for_ragular_price",$_POST["cnc_b2b_margin_for_ragular_price"]);
         update_option("cnc_b2b_round_up_the_nearest",$_POST["cnc_b2b_round_up_the_nearest"]);
         update_option("cnc_b2b_price_for_product",$_POST["cnc_b2b_price_for_product"]);
+        update_option("cnc_b2b_maximum_rrp",$_POST["cnc_b2b_maximum_rrp"]);
         
     }
     
@@ -21,6 +22,7 @@
     $cnc_b2b_margin_for_ragular_price = get_option("cnc_b2b_margin_for_ragular_price");
     $cnc_b2b_round_up_the_nearest = get_option("cnc_b2b_round_up_the_nearest");
     $cnc_b2b_price_for_product = get_option("cnc_b2b_price_for_product");
+    $cnc_b2b_maximum_rrp = get_option("cnc_b2b_maximum_rrp");
 ?>
 <div class="cnc_b2b_order_settings_page">
     <div class="page_title cnc_special_title">
@@ -138,6 +140,13 @@
 	                    <input type="text" name="cnc_b2b_round_up_the_nearest" id="cnc_b2b_round_up_the_nearest" value="<?php if($cnc_b2b_round_up_the_nearest){ echo $cnc_b2b_round_up_the_nearest; } ?>" />
 	                </div>
 	            </div>
+            </div>
+            
+            <div class="order_type_wrap" style="display:none">
+                <h3>Maximum RRP :</h3>
+                <div class="radio_wrap">
+                    <input type="text" name="cnc_b2b_maximum_rrp" id="cnc_b2b_maximum_rrp" value="<?php if($cnc_b2b_maximum_rrp){ echo $cnc_b2b_maximum_rrp; } ?>" />
+                </div>
             </div>
             <div class="order_type_wrap">
                 <div class="pgs_button">

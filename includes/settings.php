@@ -24,7 +24,7 @@ if(isset($_POST["verify"]) || isset($_POST['sync_data'])){
 }
 if(isset($_POST['sync_data'])){
     if(get_option("cnc_b2b_import_all") != "1"){
-            $url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/list";
+            $url="https://personalisedgiftsupply.com/api/reseller-api/v1/product/list/?max_rrp=".get_option("cnc_b2b_maximum_rrp");
             $args = array(
                 'headers' => array(
                   'Content-Type' => 'application/json',
