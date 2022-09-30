@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.24
+ * Version:           0.0.25
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -13,6 +13,7 @@
 /**
  * Activate the plugin.
  */
+ 
 function cnc_b2b_activate() { 
     add_option("cnc_b2b_sync_order_type","sync_on_status_change");
     add_option("cnc_b2b_sync_order_status","wc-processing");
@@ -467,8 +468,13 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     $post = get_post($product_id);
 	$prices_data = get_post_meta($product_id,"reseller_pricing",true);
 	$thumbnail = get_post_meta($product_id,"_thumbnail_id",true);
-	//print_R($prices_data);
-	if($prices_data && $thumbnail!='' ){
+	$regular_price = cnc_b2b_get_regular_price($prices_data);
+	$flag = true;
+	$max_price = get_option("cnc_b2b_maximum_rrp");
+	if($max_price && $max_price != 0 && $max_price != "0" && floatval($max_price) < $regular_price){
+		$flag = false;	
+	}
+	if($prices_data && $thumbnail!='' && $flag){
 	    $product_args = array(
 	        'post_type'  => 'product',
 	        'meta_query' => array(
@@ -501,7 +507,15 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 	    update_post_meta($post_id, "cnc_b2b_csv_price_data", get_post_meta($product_id, "csv_price_data", true));
 	    update_post_meta($post_id, "customiser_data", get_post_meta($product_id, "customiser_data", true));
 	    update_post_meta($post_id, "cnc_b2b_product_id", $product_id);
-	
+	    
+	    $source_data = json_decode(get_post_meta($product_id,"bigcommerce_source_data",true),true);
+		update_post_meta($post_id, "_wc_gla_gtin", $source_data['upc']);
+		update_post_meta($post_id, "_wc_gla_mpn", get_post_meta($product_id, "bigcommerce_sku", true));
+		
+		// echo "<pre>";
+		// get_post_meta($product_id);
+		// echo "</pre>";
+		
 	    if (get_option("cnc_b2b_import_category") == "1") {
 	        if (get_post_meta($product_id, "cnc_b2b_category", true)) {
 	            foreach (get_post_meta($product_id, "cnc_b2b_category", true) as $pgs_term) {
@@ -537,7 +551,6 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 	        }
 	    }
 	    
-		$regular_price = cnc_b2b_get_regular_price($prices);
 	    update_post_meta($post_id, "_price", $regular_price);
 	    update_post_meta($post_id, "_regular_price", $regular_price);
 	    

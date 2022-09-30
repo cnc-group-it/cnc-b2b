@@ -2,6 +2,17 @@
 // add_action("wp",function(){
 //     if($_GET['sss']=='sss'){
 //     	echo "<pre>";
+//   //  	$allposts = new WP_Query( 
+//   //  		array(
+//   //  			'post_type'=>'product',
+//   //  			'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
+// 	 //		 		'posts_per_page' => 299
+//   //  		) 
+//   //  	);
+// 		// print_R($allposts);
+// 		// foreach ($allposts->posts as $eachpost) {
+// 		// 	wp_delete_post( $eachpost->ID, true );
+// 		// }
 //         cnc_b2b_product_stock_update();
 //         exit;
 //     }
