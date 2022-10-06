@@ -1,3 +1,10 @@
+jQuery(document).ready(function(){
+    if(jQuery('body').hasClass("cnc_b2b_product")){
+        jQuery(".single_add_to_cart_button[name='add-to-cart']").attr("disabled","disabled");
+    }
+});
+
+
 // jQuery(document).on("click",".cnc_b2b_personalise_button .Personalise-btn button",function(){
 //     jQuery('.customizationpopup').bPopup();
 // });
@@ -602,6 +609,7 @@
     }
     function closepopup(isSubmit){
     jQuery('.customizationpopup').bPopup().close();
+    jQuery(".single_add_to_cart_button[name='add-to-cart']").removeAttr("disabled");
     jQuery('.bcaddoncustomize').addClass('greenbg').html('Customization Confirmed');
     console.log("490")
     jQuery('.bc-product-single__top button.bc-btn--add_to_cart').attr('disabled',false);   
