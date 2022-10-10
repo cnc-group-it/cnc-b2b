@@ -172,6 +172,7 @@ input.font_value:disabled {
     position: absolute;
     word-break: break-word;
     text-align: center;
+    line-height: 1;
 }
 .total_font {
     display: inline-block;
