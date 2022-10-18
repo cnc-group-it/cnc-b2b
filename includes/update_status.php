@@ -64,7 +64,10 @@ function cnc_b2b_update_order_status(){
         }
         if(count($complete_status) == count($value)){
             $order->update_status( 'completed' );
-            update_post_meta($key,"cnc_b2b_order_tracking_id",$value->tracking_id);
+        }
+        
+        foreach($value as $item_id => $data){
+        		update_post_meta($key,"cnc_b2b_order_tracking_id",$data['tracking_id']);
         }
     }
 }

@@ -2,10 +2,10 @@
     if(isset($_POST['cnc_b2b_save_sync_order_setting'])){
         update_option("cnc_b2b_sync_order_type",$_POST['cnc_b2b_sync_order_type']);
         update_option("cnc_b2b_sync_order_status",$_POST['cnc_b2b_sync_order_status']);
-        update_option("cnc_b2b_sync_order_status_automatically",$_POST['cnc_b2b_sync_order_status_automatically'] == "on" ? "1" : "0");
-        update_option("cnc_b2b_sync_order_status_if_other_product_also",$_POST["cnc_b2b_sync_order_status_if_other_product_also"]=="on"?"1":"0");
-        update_option("cnc_b2b_import_category",$_POST["cnc_b2b_import_category"]=="on"?"1":"0");
-        update_option("cnc_b2b_import_all",$_POST["cnc_b2b_import_all"]=="on"?"1":"0");
+        update_option("cnc_b2b_sync_order_status_automatically",(isset($_POST["cnc_b2b_sync_order_status_automatically"]) && $_POST['cnc_b2b_sync_order_status_automatically'] == "on") ? "1" : "0");
+        update_option("cnc_b2b_sync_order_status_if_other_product_also", (isset($_POST["cnc_b2b_sync_order_status_if_other_product_also"]) && $_POST["cnc_b2b_sync_order_status_if_other_product_also"]=="on")?"1":"0");
+        update_option("cnc_b2b_import_category",(isset($_POST["cnc_b2b_import_category"]) && $_POST["cnc_b2b_import_category"]=="on" )?"1":"0");
+        update_option("cnc_b2b_import_all",(isset($_POST["cnc_b2b_import_all"]) && $_POST["cnc_b2b_import_all"]=="on" )?"1":"0");
         update_option("cnc_b2b_margin_for_ragular_price",$_POST["cnc_b2b_margin_for_ragular_price"]);
         update_option("cnc_b2b_round_up_the_nearest",$_POST["cnc_b2b_round_up_the_nearest"]);
         update_option("cnc_b2b_price_for_product",$_POST["cnc_b2b_price_for_product"]);
@@ -13,12 +13,12 @@
         
     }
     
-    $cnc_b2b_import_all = get_option("cnc_b2b_import_all");
-    $cnc_b2b_import_category = get_option("cnc_b2b_import_category");
+    $cnc_b2b_import_all = get_option("cnc_b2b_import_all") ? get_option("cnc_b2b_import_all") : "0";
+    $cnc_b2b_import_category = get_option("cnc_b2b_import_category") ? get_option("cnc_b2b_import_category") : "0";
     $cnc_b2b_sync_order_type = get_option("cnc_b2b_sync_order_type");
     $cnc_b2b_sync_order_status = get_option("cnc_b2b_sync_order_status");
-    $cnc_b2b_sync_order_status_automatically = get_option("cnc_b2b_sync_order_status_automatically");
-    $cnc_b2b_sync_order_status_if_other_product_also = get_option("cnc_b2b_sync_order_status_if_other_product_also");
+    $cnc_b2b_sync_order_status_automatically = get_option("cnc_b2b_sync_order_status_automatically") ? get_option("cnc_b2b_sync_order_status_automatically") : "0";
+    $cnc_b2b_sync_order_status_if_other_product_also = get_option("cnc_b2b_sync_order_status_if_other_product_also") ? get_option("cnc_b2b_sync_order_status_if_other_product_also") : "0";
     $cnc_b2b_margin_for_ragular_price = get_option("cnc_b2b_margin_for_ragular_price");
     $cnc_b2b_round_up_the_nearest = get_option("cnc_b2b_round_up_the_nearest");
     $cnc_b2b_price_for_product = get_option("cnc_b2b_price_for_product");
