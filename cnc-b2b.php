@@ -371,7 +371,7 @@ function b2b_cnc_add_custom_variant_option_after_product_title()
     // print_r($cnc_b2b_bigcommerce_modifier_data);
     // print_r($customiser_data);
     // echo "</pre>";
-    if ($cnc_b2b_bigcommerce_modifier_data) {
+    if (!empty($cnc_b2b_bigcommerce_modifier_data)) {
         foreach ($cnc_b2b_bigcommerce_modifier_data as $modifier) {
             if ($modifier->type == "rectangles") {
     ?>
