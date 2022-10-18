@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.28
+ * Version:           0.0.29
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -371,28 +371,30 @@ function b2b_cnc_add_custom_variant_option_after_product_title()
     // print_r($cnc_b2b_bigcommerce_modifier_data);
     // print_r($customiser_data);
     // echo "</pre>";
-    foreach ($cnc_b2b_bigcommerce_modifier_data as $modifier) {
-        if ($modifier->type == "rectangles") {
+    if ($cnc_b2b_bigcommerce_modifier_data) {
+        foreach ($cnc_b2b_bigcommerce_modifier_data as $modifier) {
+            if ($modifier->type == "rectangles") {
     ?>
-            <div for="option-<?php echo esc_attr($modifier->id); ?>" class="bc-product-form__control bc-product-form__control--pick-list">
-                <span class="bc-form__label bc-product-form__option-label bc-form-control-required"><?php echo esc_html("Design"); ?></span>
-                <!-- data-js="product-form-option" and data-field="product-form-option-radio" are required -->
-                <div class="bc-product-form__option-variants" data-js="product-form-option" data-field="product-form-option-radio">
-                    <?php foreach ($modifier->option_values as $option) { ?>
-                        <input type="radio" name="option[<?php echo esc_attr($modifier->id); ?>]" data-option-id="<?php echo esc_attr($modifier->id); ?>" id="option--<?php echo esc_attr($option->id); ?>" value="<?php echo esc_attr($option->id); ?>" data-js="bc-product-option-field" class="u-bc-visual-hide bc-product-variant__radio--hidden" required="required" />
-                        <label for="option--<?php echo esc_attr($option->id); ?>" class="bc-product-variant__label">
-                            <span class="bc-product-variant__label--pick-list">
-                                <span class="bc-product-variant__label--title">
-                                    <?php echo esc_html($option->label); ?>
+                <div for="option-<?php echo esc_attr($modifier->id); ?>" class="bc-product-form__control bc-product-form__control--pick-list">
+                    <span class="bc-form__label bc-product-form__option-label bc-form-control-required"><?php echo esc_html("Design"); ?></span>
+                    <!-- data-js="product-form-option" and data-field="product-form-option-radio" are required -->
+                    <div class="bc-product-form__option-variants" data-js="product-form-option" data-field="product-form-option-radio">
+                        <?php foreach ($modifier->option_values as $option) { ?>
+                            <input type="radio" name="option[<?php echo esc_attr($modifier->id); ?>]" data-option-id="<?php echo esc_attr($modifier->id); ?>" id="option--<?php echo esc_attr($option->id); ?>" value="<?php echo esc_attr($option->id); ?>" data-js="bc-product-option-field" class="u-bc-visual-hide bc-product-variant__radio--hidden" required="required" />
+                            <label for="option--<?php echo esc_attr($option->id); ?>" class="bc-product-variant__label">
+                                <span class="bc-product-variant__label--pick-list">
+                                    <span class="bc-product-variant__label--title">
+                                        <?php echo esc_html($option->label); ?>
+                                    </span>
                                 </span>
-                            </span>
-                        </label>
+                            </label>
 
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
+
                 </div>
-
-            </div>
 <?php
+            }
         }
     }
 }
