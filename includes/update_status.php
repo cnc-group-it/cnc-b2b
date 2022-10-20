@@ -57,17 +57,15 @@ function cnc_b2b_update_order_status(){
         $complete_status = array();
         if (!empty($order)) {
             foreach($value as $item_id => $data){
-                if($data['status'] == 'completed'){
+                if($data['status'] == 'completed' && isset($data['tracking_id'])){
                     $complete_status[] = $item_id;
                 }
             }
         }
         if(count($complete_status) == count($value)){
             $order->update_status( 'completed' );
+	        update_post_meta($key,"cnc_b2b_order_tracking_id",$data['tracking_id']);
         }
         
-        foreach($value as $item_id => $data){
-        		update_post_meta($key,"cnc_b2b_order_tracking_id",$data['tracking_id']);
-        }
     }
 }
