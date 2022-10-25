@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.30
+ * Version:           0.0.29
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -286,7 +286,7 @@ function cnc_b2b_product_pricing_callback($post)
                 <tr>
                     <th style="border:1px solid black;padding: 10px;">Profit</th>
                     <td style="border:1px solid black;padding: 10px;"><?php
-                                                                        $profit = ($regular_price / 1.2) - $pricing['Dropship For 1'];
+                                                                        $profit = ($regular_price / 1.2) - ($pricing['Dropship For 1']?$pricing['Dropship For 1']:0);
                                                                         echo '£' . round($profit, 2);
                                                                         ?></td>
 
@@ -525,8 +525,8 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
         update_post_meta($post_id, "cnc_b2b_product_id", $product_id);
 
         $source_data = json_decode(get_post_meta($product_id, "bigcommerce_source_data", true), true);
-        update_post_meta($post_id, "_wc_gla_gtin", $source_data['upc']);
-        update_post_meta($post_id, "_wc_gla_mpn", get_post_meta($product_id, "bigcommerce_sku", true));
+        // update_post_meta($post_id, "_wc_gla_gtin", $source_data['upc']);
+        // update_post_meta($post_id, "_wc_gla_mpn", get_post_meta($product_id, "bigcommerce_sku", true));
 
         // echo "<pre>";
         // get_post_meta($product_id);
