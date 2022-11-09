@@ -119,7 +119,7 @@ function cnc_b2b_add_personalise_button_product_page()
                             height : <?php echo ($postdata['engrave_image_height'] + 10); ?>px;
                             width : <?php echo ($postdata['engrave_image_width'] + 10); ?>px;
                             ">
-                            <img class="engrave_main_image" src="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '', $postdata['engravepreviewimage']); ?>" style="
+                            <img class="engrave_main_image" src="<?php echo str_replace(array("es.", "aus.", "us.", "secureservercdn.net/160.153.137.170/"), '', $postdata['engravepreviewimage']); ?>" style="
                                 width : <?php echo $postdata['engrave_image_width']; ?>px;
                                 height : <?php echo $postdata['engrave_image_height']; ?>px;
                                 " />
@@ -167,7 +167,7 @@ function cnc_b2b_add_personalise_button_product_page()
                                                     } ?>>
                                 <b>Font Choice</b>
                             </div>
-                            <div class="width_100" <?php if (isset($postdata['multiple_fonts']) &&$postdata['multiple_fonts'] == 1) {
+                            <div class="width_100" <?php if (isset($postdata['multiple_fonts']) && $postdata['multiple_fonts'] == 1) {
                                                         echo 'style="display:none"';
                                                     } ?>>
                                 <select name="engrave_fonts" id="engrave_fonts">
@@ -243,8 +243,8 @@ function cnc_b2b_add_personalise_button_product_page()
                                     <select class="engrave_color_class_select <?php if ($postdata['color_for_variation'] == '1') {
                                                                                     echo 'color_for_variation';
                                                                                 } ?> <?php if ($postdata['override_font_color']) {
-                                                                                                                                                                    echo 'override_font_color';
-                                                                                                                                                                } ?>">
+                                                                                            echo 'override_font_color';
+                                                                                        } ?>">
                                         <option value="">Select Color</option>
                                         <?php
                                         foreach ($postdata['available_color_label'] as $key => $value) {

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.29
+ * Version:           0.0.31
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -286,7 +286,7 @@ function cnc_b2b_product_pricing_callback($post)
                 <tr>
                     <th style="border:1px solid black;padding: 10px;">Profit</th>
                     <td style="border:1px solid black;padding: 10px;"><?php
-                                                                        $profit = ($regular_price / 1.2) - ($pricing['Dropship For 1']?$pricing['Dropship For 1']:0);
+                                                                        $profit = ($regular_price / 1.2) - ($pricing['Dropship For 1'] ? $pricing['Dropship For 1'] : 0);
                                                                         echo '£' . round($profit, 2);
                                                                         ?></td>
 
