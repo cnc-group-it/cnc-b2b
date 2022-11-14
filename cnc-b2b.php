@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.31
+ * Version:           0.0.32
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -589,6 +589,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
             $file['tmp_name'] = download_url($thamnail_url);
             $attachmentId = media_handle_sideload($file, $post_id);
             update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
+            unlink($file['tmp_name']);
         }
         if (!is_wp_error($attachmentId)) {
             set_post_thumbnail($post_id, $attachmentId);
@@ -605,6 +606,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                 $file['tmp_name'] = download_url($image_uploade_url . $image);
                 $attachmentId = media_handle_sideload($file);
                 update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
+                unlink($file['tmp_name']);
             }
             if (!is_wp_error($attachmentId)) {
                 $gallery_images[] = $attachmentId;
