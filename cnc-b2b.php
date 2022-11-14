@@ -256,7 +256,7 @@ function cnc_b2b_product_pricing_callback($post)
                 <?php
 
                 foreach ($pricing as $key => $value) {
-                    if ($key == "Images" || $key == "ATP_images") {
+                    if ($key == "Images" || $key == "ATP_Images") {
                         continue;
                     }
                 ?>
