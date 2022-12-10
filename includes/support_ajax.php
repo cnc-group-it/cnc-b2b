@@ -75,8 +75,8 @@ function cnc_b2b_order_item_sync_to_pgs($order,$item_id,$item){
         "font_value_8" => wc_get_order_item_meta( $item_id, 'Engrave Font 8', true ),
         "font_value_9" => wc_get_order_item_meta( $item_id, 'Engrave Font 9', true ),
         "font_value_10" => wc_get_order_item_meta( $item_id, 'Engrave Font 10', true ),
-        "uploadNewUrl" => wc_get_order_item_meta( $item_id, 'uploadNewUrl', true ),
-        "print_url" => wc_get_order_item_meta( $item_id, 'print_url', true ),
+        "uploadNewUrl" => wc_get_order_item_meta( $item_id, 'Uploaded File', true ),
+        "print_url" => wc_get_order_item_meta( $item_id, 'Print Preview', true ),
         "sale_price" => $item->get_total()
     );
     $url="https://personalisedgiftsupply.com/api/reseller-api/v1/order/create";

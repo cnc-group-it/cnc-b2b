@@ -1,3 +1,24 @@
+#imageWrapper{
+cursor: all-scroll;
+
+}
+.printarea  #imageWrapper{
+    height : 100%;
+    width : 100%;
+}
+.ui-rotatable-handle{
+    cursor:pointer;
+    height:15px;
+    width:15px;
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/images/ui-icons_cc0000_256x240.png);
+    background-position: -131px -301px;
+    }
+    
+    .ui-draggable-handle {
+    -ms-touch-action: none;
+    touch-action: none;
+    cursor: move;
+}
 .cnc_b2b_personalise_button{
     margin: 20px 0px;
 }

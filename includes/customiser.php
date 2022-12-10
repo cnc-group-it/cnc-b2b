@@ -42,10 +42,106 @@ function cnc_b2b_add_personalise_button_product_page()
                     <div class="fullwidth notice-centeralised">All text will be centralised</div>
                 </div>
             </div>
-
+			<?php $postdata = (array)get_post_meta(get_the_ID(), "customiser_data", true); ?>
+<?php if($postdata['product_type_cnc']=='print') :
+				$path = $postdata['previewimage'];		
+				$type = pathinfo($path, PATHINFO_EXTENSION);
+				$data = file_get_contents($path);
+				$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+				global $cnc_b2b_url;
+    ?>
+    <input type="hidden" id="fileupload" value="<?php echo $cnc_b2b_url.'includes/fileupload.php'; ?>" />
+    <input type="hidden" id="frameurl" value="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '',$postdata['previewimage']); ?>" />
+    <input type="hidden" id="uploadNewUrl" value="" />
+    <input type="hidden" id="originalWidth" value="<?php echo $postdata['print_image_width']; ?>" />
+    <input type="hidden" id="originalHeight" value="<?php echo $postdata['print_image_height']; ?>" />
+    <input type="hidden" id="imageLeftBase" value="<?php echo $postdata['print_position_left']; ?>" />
+    <input type="hidden" id="imageTopBase" value="<?php echo $postdata['print_position_top']; ?>" />
+    <input type="hidden" id="imageLeft" value="" />
+    <input type="hidden" id="imageTop" value="" />
+    <input type="hidden" id="imageRotation" value="" />
+    <input type="hidden" id="print_url" name="print_url" value="" />
+    <input type="hidden" id="image_url" name="image_url" value="" />
+    
+    
+    <div class="customizationpopup" style="display:none;">
+        <div class="width_100 headSection" >
+            <h1>Customise Your Product</h1>
+            <span><button type="button" onclick="closepopup()" class="closeIcon"></button></span>
+        </div>
+        <div class="width_100 contentWrapper print" >
+                <div class="width_50 left" > 
+                    <div class="print_wrap" id="screenshort-wrapper" style="
+                        width : <?php echo $postdata['print_image_width']; ?>px;
+                        height : <?php echo $postdata['print_image_height']; ?>px;
+                        ">
+                        <!--<img src="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '',$postdata['previewimage']); ?>" style="-->
+                        <img src="<?php echo $base64; ?>" style="
+                        width : <?php echo $postdata['print_image_width']; ?>px;
+                        height : <?php echo $postdata['print_image_height']; ?>px;
+                        "  />
+                        <div class="printarea" 
+                            style="
+                            width: <?php echo $postdata['print_width']; ?>px;
+                            height: <?php echo $postdata['print_height']; ?>px;
+                            margin-top: <?php echo $postdata['print_position_top']; ?>px;
+                            margin-left: <?php echo $postdata['print_position_left']; ?>px;
+                            "
+                        >
+                            <div id="imageWrapper" class="defaultState" style="
+                            width: <?php echo ($postdata['print_width'] - 10); ?>px;
+                            height: <?php echo ($postdata['print_height'] - 10); ?>px;" 
+                            hidden
+                            >
+                                <img id="imgLogo" 
+                              
+                                src="" alt=""  
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notice width_100">Use your mouse to scale, move & rotate your image</div>
+                </div>
+                <div class="width_50 right" >
+                    <div class="width_100 mobile_bc_action_button">
+                        <div class="width_30">
+                            <div class="inline-block rotate-left"><i class="fa fa-undo" ></i></div>
+                            <div class="inline-block rotate-right"><i class="fa fa-repeat" ></i></div>
+                        </div>
+                        <div class="width_30">
+                            <div class="inline-block mv-left"><i class="fa fa-arrow-left" ></i></div>
+                            <div class="inline-block mv-right"><i class="fa fa-arrow-right" ></i></div>
+                            <div class="inline-block mv-up"><i class="fa fa-arrow-up" ></i></div>
+                            <div class="inline-block mv-down"><i class="fa fa-arrow-down" ></i></div>
+                        </div>
+                        <div class="width_30">
+                            <div class="inline-block zoomin"><i class="fa fa-search-minus" ></i></div>
+                            <div class="inline-block zoomout"><i class="fa fa-search-plus" ></i></div>
+                        </div>
+                    </div>
+                    <h2>Image Upload</h2>
+                    <div class="width_100" />
+                        <input type="file" accept="jpg,jpeg,png,gif" name="userfileprint"   onchange="readURL(this,'print')"/>
+                    </div>
+                    <div class="width_100 remove_image" > 
+                            <button onclick="remove_image()" class="remove_image" >Remove Image</button>
+                    </div>
+                    <div class="width_100 remove_image" > 
+                        
+                    </div>
+                    <div class="width_100" > 
+                            <button onclick="downloadimage()" class="confirm_print" >Confirm Customisation</button>
+                    </div>
+                </div> 
+        </div>
+    </div> 
+    <?php
+ endif; ?>
+<?php if($postdata['product_type_cnc']=='engrave'): ?>
             <div class="customizationpopup" style="display:none;">
                 <?php
-                $postdata = (array)get_post_meta(get_the_ID(), "customiser_data", true);
+                
+                
                 $engrave_user_fonts = array();
                 ?>
                 <style id="personalised-style">
@@ -338,6 +434,7 @@ function cnc_b2b_add_personalise_button_product_page()
                     </div>
                 </div>
             </div>
+<?php endif; ?>
         </div>
 <?php
     endif;
@@ -379,6 +476,16 @@ function cnc_b2b_add_cart_item_data($cart_item_data, $product_id)
             $cart_item_data['clipart'] = $_POST['clipart'];
         }
     }
+    if (isset($_POST['print_url'])) {
+        if (!empty($_POST['print_url'])) {
+            $cart_item_data['print_url'] = $_POST['print_url'];
+        }
+    }
+    if (isset($_POST['image_url'])) {
+        if (!empty($_POST['image_url'])) {
+            $cart_item_data['image_url'] = $_POST['image_url'];
+        }
+    }
     return $cart_item_data;
 }
 
@@ -418,6 +525,18 @@ function cnc_b2b_get_item_data($cart_data, $cart_item)
             'display' =>  $cart_item['clipart']
         );
     }
+    if (isset($cart_item['print_url'])) {
+        $cart_data[] = array(
+            'name'    => __("Print Preview"),
+            'display' =>  $cart_item['print_url']
+        );
+    }
+    if (isset($cart_item['image_url'])) {
+        $cart_data[] = array(
+            'name'    => __("Uploaded File"),
+            'display' =>  $cart_item['image_url']
+        );
+    }
 
     return $cart_data;
 }
@@ -442,6 +561,12 @@ function cnc_b2b_add_order_item_meta($item_id, $cart_item, $cart_item_key)
     }
     if (isset($cart_item['clipart'])) {
         wc_add_order_item_meta($item_id, "Engrave Clipart", $cart_item['clipart']);
+    }
+    if (isset($cart_item['print_url'])) {
+        wc_add_order_item_meta($item_id, "Print Preview", $cart_item['print_url']);
+    }
+    if (isset($cart_item['image_url'])) {
+        wc_add_order_item_meta($item_id, "Uploaded File", $cart_item['image_url']);
     }
 }
 

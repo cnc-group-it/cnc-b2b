@@ -69,3 +69,4 @@ jQuery(document).on("change keyup",'.cnc_b2b_order_setting_content .margin_input
 		jQuery(".pgs_button input[name='cnc_b2b_save_sync_order_setting']").prop('disabled', false).removeClass("not_allowed");
 	}
 });
+

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.34
+ * Version:           0.0.35
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -32,6 +32,9 @@ register_activation_hook(__FILE__, 'cnc_b2b_activate');
 
 global $image_uploade_url;
 $image_uploade_url = "https://www.allthingspersonalised.com/wp-content";
+
+global $cnc_b2b_url;
+$cnc_b2b_url = plugin_dir_url(__FILE__);
 
 require_once(ABSPATH . "wp-admin" . '/includes/image.php');
 require_once(ABSPATH . "wp-admin" . '/includes/file.php');
@@ -96,8 +99,11 @@ function cnc_b2b_change_post_media_url($url, $image_id)
 
 function cnc_b2b_support_plugin_frontend_scripts()
 {
+	
+	wp_enqueue_style('pgs_frontend_jqueryui', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css?ver=533548279', array(), null, "all");
     wp_enqueue_style('pgs_frontend_style', plugin_dir_url(__FILE__) . 'assets/css/fronend_style.css', array(), null, "all");
     wp_enqueue_script('pgs_frontend_bpopup_script', plugin_dir_url(__FILE__) . 'assets/js/jquery.bpopup.min.js', array(), null, "all");
+    wp_enqueue_script('pgs_jquery_ui', 'https://code.jquery.com/ui/1.13.2/jquery-ui.min.js', array(), null, "all");
     wp_enqueue_script('pgs_frontend_script', plugin_dir_url(__FILE__) . 'assets/js/frontend_script.js', array(), null, "all");
 }
 add_action('wp_enqueue_scripts', 'cnc_b2b_support_plugin_frontend_scripts');
