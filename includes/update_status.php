@@ -40,6 +40,7 @@ function cnc_b2b_update_order_status(){
         )
     );
     $responsedata=wp_remote_get($url,$args);
+    
     $data=wp_remote_retrieve_body($responsedata);
     $body = json_decode($data,true);
     $data = $body['data'];
@@ -55,16 +56,24 @@ function cnc_b2b_update_order_status(){
             continue;
         }
         $complete_status = array();
+        $tracking_id = "";
         if (!empty($order)) {
             foreach($value as $item_id => $data){
                 if($data['status'] == 'completed' && isset($data['tracking_id'])){
                     $complete_status[] = $item_id;
+                    $tracking_id = $data['tracking_id'];
+                }
+                if(isset($data['processed_time'])){
+	        		update_post_meta($key,"cnc_b2b_order_processed_time",$data['processed_time']);
+                }
+                if(isset($data['shipping_service'])){
+	        		update_post_meta($key,"cnc_b2b_order_shipping_service",$data['shipping_service']);
                 }
             }
         }
         if(count($complete_status) == count($value)){
             $order->update_status( 'completed' );
-	        update_post_meta($key,"cnc_b2b_order_tracking_id",$data['tracking_id']);
+	        update_post_meta($key,"cnc_b2b_order_tracking_id",$tracking_id);
         }
         
     }

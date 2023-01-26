@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.36
+ * Version:           0.0.37
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -324,6 +324,22 @@ function cnc_b2b_manually_sync_order_callback($post)
             <div class="order_tracking_Info">
                 <label>Order Tracking ID : </label>
                 <input type="text" value="<?php echo get_post_meta($post->ID, "cnc_b2b_order_tracking_id", true); ?>" readonly />
+            </div>
+        <?php
+        }
+        if (get_post_meta($post->ID, "cnc_b2b_order_processed_time", true)) {
+        ?>
+            <div class="order_tracking_Info">
+                <label>Order Processed Time : </label>
+                <input type="text" value="<?php echo get_post_meta($post->ID, "cnc_b2b_order_processed_time", true); ?>" readonly />
+            </div>
+        <?php
+        }
+        if (get_post_meta($post->ID, "cnc_b2b_order_shipping_service", true)) {
+        ?>
+            <div class="order_tracking_Info">
+                <label>Order Shipping Service : </label>
+                <input type="text" value="<?php echo get_post_meta($post->ID, "cnc_b2b_order_shipping_service", true); ?>" readonly />
             </div>
         <?php
         }
