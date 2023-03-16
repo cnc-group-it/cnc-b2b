@@ -600,7 +600,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
         update_post_meta($post_id, "reseller_pricing", get_post_meta($product_id, "reseller_pricing", true));
 
         //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
-        $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
+        $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['ATP_Images']);
 
         $thamnail_url = get_post_meta($product_id, "cnc_b2b_thumbnail_image_url", true);
         $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
