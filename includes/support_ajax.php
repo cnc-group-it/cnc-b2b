@@ -56,7 +56,7 @@ function cnc_b2b_order_item_sync_to_pgs($order, $item_id, $item)
         "item_number" =>  get_post_meta($item->get_product_id(), 'cnc_b2b_bigcommerce_sku', true),
         "quantity" => $item->get_quantity(),
         "shipping_type" => wc_get_order_item_meta($item_id, 'shipping_type', true),
-        "next_day" => wc_get_order_item_meta($item_id, 'next_day', true),
+        "next_day" => true,
         "customer_name" => (!empty($order->get_shipping_first_name()) && !empty($order->get_shipping_last_name())) ? $order->get_shipping_first_name() . " " . $order->get_shipping_last_name() : $order->get_billing_first_name() . " " . $order->get_billing_last_name(),
         "address_line_1" => $order->get_shipping_address_1() ? $order->get_shipping_address_1() : $order->get_billing_address_1(),
         "address_line_2" => $order->get_shipping_address_2() ? $order->get_shipping_address_2() : $order->get_billing_address_2(),

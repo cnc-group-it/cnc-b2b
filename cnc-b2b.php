@@ -489,6 +489,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
             update_post_meta($post_id, "pgs_link", $product['pgs_link']);
             update_post_meta($post_id, "reseller_pricing", $product['reseller_pricing']);
             update_post_meta($post_id, "cnc_b2b_category", $product['category']);
+            update_post_meta($post_id, "cnc_b2b_thumbnail_image_url", $product['thumbnail_image']);
 
             return $post_id;
         } else {
@@ -506,7 +507,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     $post = get_post($product_id);
     $prices_data = get_post_meta($product_id, "reseller_pricing", true);
     $thumbnail = get_post_meta($product_id, "_thumbnail_id", true);
-    $regular_price = cnc_b2b_get_regular_price($prices_data);
+    $regular_price = get_post_meta($product_id, "bigcommerce_calculated_price", true);
     $flag = true;
     $max_price = get_option("cnc_b2b_maximum_rrp");
     if ($max_price && $max_price != 0 && $max_price != "0" && floatval($max_price) < $regular_price) {
@@ -601,7 +602,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
         //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
         $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
 
-        $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+        $thamnail_url = get_post_meta($product_id, "cnc_b2b_thumbnail_image_url", true);
         $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
         if ($image_is_exist) {
             $attachmentId = $image_is_exist;
