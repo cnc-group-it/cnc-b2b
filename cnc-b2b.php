@@ -452,7 +452,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
     if ($product['reseller_pricing'] && $product['meta']['_thumbnail_id'] != '') {
 
 
-        if (!$product['customiser_data']['varialble_option']) {
+        if ($product['customiser_data'] && !isset($product['customiser_data']['varialble_option'])) {
             $args = array(
                 'post_type'  => 'pgs_products',
                 'post_status' => 'any',
@@ -579,8 +579,11 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                             $file = array();
                             $file['name'] = "term-" . $pgs_term['slug'] . ".jpg";
                             $file['tmp_name'] = download_url($pgs_term['background_image']);
-                            $attachmentId = media_handle_sideload($file);
-                            update_post_meta($attachmentId, "cnc_b2b_reference_url", $pgs_term['background_image']);
+                            if (!is_wp_error($file['tmp_name'])) {
+                                $attachmentId = media_handle_sideload($file);
+                                update_post_meta($attachmentId, "cnc_b2b_reference_url", $pgs_term['background_image']);
+                                unlink($file['tmp_name']);
+                            }
                         }
                         if (!is_wp_error($attachmentId)) {
                             update_term_meta($term['term_id'], "thumbnail_id", $attachmentId);
@@ -610,9 +613,11 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
             $file = array();
             $file['name'] = get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
             $file['tmp_name'] = download_url($thamnail_url);
-            $attachmentId = media_handle_sideload($file, $post_id);
-            update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
-            unlink($file['tmp_name']);
+            if (!is_wp_error($file['tmp_name'])) {
+                $attachmentId = media_handle_sideload($file, $post_id);
+                update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
+                unlink($file['tmp_name']);
+            }
         }
         if (!is_wp_error($attachmentId)) {
             set_post_thumbnail($post_id, $attachmentId);
@@ -627,9 +632,11 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                 $file = array();
                 $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
                 $file['tmp_name'] = download_url($image_uploade_url . $image);
-                $attachmentId = media_handle_sideload($file);
-                update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
-                unlink($file['tmp_name']);
+                if (!is_wp_error($file['tmp_name'])) {
+                    $attachmentId = media_handle_sideload($file);
+                    update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
+                    unlink($file['tmp_name']);
+                }
             }
             if (!is_wp_error($attachmentId)) {
                 $gallery_images[] = $attachmentId;
