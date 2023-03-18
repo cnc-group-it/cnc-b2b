@@ -512,7 +512,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     if ($max_price && $max_price != 0 && $max_price != "0" && floatval($max_price) < $regular_price) {
         $flag = false;
     }
-    if ($prices_data && $thumbnail != '' && $flag) {
+    if ($prices_data && $thumbnail != '' && $flag && $regular_price > 0 ) {
         $product_args = array(
             'post_type'  => 'product',
             'meta_query' => array(
