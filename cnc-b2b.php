@@ -513,7 +513,8 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     if ($max_price && $max_price != 0 && $max_price != "0" && floatval($max_price) < $regular_price) {
         $flag = false;
     }
-    if ($prices_data && $thumbnail != '' && $flag) {
+    if ($prices_data && $thumbnail != '' && $flag && $regular_price>0 && 
+    $prices_data['RRP']!='' ) {
         $product_args = array(
             'post_type'  => 'product',
             'meta_query' => array(
@@ -570,7 +571,9 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                                 'slug'        => $pgs_term['slug'],
                             )
                         );
-                        wp_set_post_terms($post_id, $term['term_id'], "product_cat", true);
+                        if(!is_wp_error($term)){
+                            wp_set_post_terms($post_id, $term['term_id'], "product_cat", true);
+                        }
 
                         $image_is_exist = cnc_b2b_is_image_exist($pgs_term['background_image']);
                         if ($image_is_exist) {
@@ -585,7 +588,8 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                                 unlink($file['tmp_name']);
                             }
                         }
-                        if (!is_wp_error($attachmentId)) {
+                        
+                        if (!is_wp_error($attachmentId) && !is_wp_error($term)) {
                             update_term_meta($term['term_id'], "thumbnail_id", $attachmentId);
                         }
                     }
@@ -679,15 +683,3 @@ $engrave_fonts = apply_filters(
 ksort($engrave_fonts);
 
 
-require __DIR__ . '/cnc-plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-    'https://github.com/cnc-group-it/cnc-b2b',
-    __FILE__,
-    'cnc-b2b'
-);
-
-//Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('master');
-
-//Optional: If you're using a private repository, specify the access token like this:
-//$myUpdateChecker->setAuthentication('sdfsdfsdf');
