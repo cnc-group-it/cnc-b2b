@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.38
+ * Version:           0.0.39
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -452,7 +452,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
     if ($product['reseller_pricing'] && $product['meta']['_thumbnail_id'] != '') {
 
 
-        if (!$product['customiser_data']['varialble_option']) {
+        if (cnc_b2b_is_configutor_reqire($product) || !$product['customiser_data']['varialble_option']) {
             $args = array(
                 'post_type'  => 'pgs_products',
                 'post_status' => 'any',
@@ -512,7 +512,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
     if ($max_price && $max_price != 0 && $max_price != "0" && floatval($max_price) < $regular_price) {
         $flag = false;
     }
-    if ($prices_data && $thumbnail != '' && $flag && $regular_price > 0 ) {
+    if ($prices_data && $thumbnail != '' && $flag && $regular_price > 0) {
         $product_args = array(
             'post_type'  => 'product',
             'meta_query' => array(
@@ -642,6 +642,23 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
         return false;
     }
 }
+
+function cnc_b2b_is_configutor_reqire($product)
+{
+    if ($product['category']) {
+        $flag = false;
+        foreach ($product['category'] as $category) {
+            if ($category['slug'] == "kings-coronation") {
+                $flag = true;
+            }
+        }
+
+        return $flag;
+    } else {
+        return false;
+    }
+}
+
 global $engrave_fonts;
 $engrave_fonts = apply_filters(
     'bc_addon_fonts',
