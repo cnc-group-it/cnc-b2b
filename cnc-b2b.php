@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.39
+ * Version:           0.0.40
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -13,7 +13,6 @@
 /**
  * Activate the plugin.
  */
-
 
 function cnc_b2b_activate()
 {
@@ -27,8 +26,39 @@ function cnc_b2b_activate()
     add_option("cnc_b2b_price_for_product", "suggested_rrp");
     add_option("cnc_b2b_margin_for_ragular_price", "20");
     add_option("cnc_b2b_maximum_rrp", "0");
+
+    plugin_activity_log("activate");
 }
 register_activation_hook(__FILE__, 'cnc_b2b_activate');
+
+function cnc_b2b_deactivate()
+{
+    plugin_activity_log("deactivate");
+}
+register_deactivation_hook(_FILE_, 'cnc_b2b_deactivate');
+
+function cnc_b2b_update()
+{
+    plugin_activity_log("update");
+}
+add_action('upgrader_process_complete', 'cnc_b2b_update');
+
+function cnc_b2b_delete()
+{
+    plugin_activity_log("delete");
+}
+register_uninstall_hook(__FILE__, 'cnc_b2b_delete');
+
+function plugin_activity_log($type)
+{
+    $api_response = wp_remote_post('https://personalisedgiftsupply.com/api/reseller-api/v1/log/reseller-plugin', array(
+        "body" => array(
+            "type" => $type,
+            "url" => get_site_url(),
+            "ip_address" =>  $_SERVER['REMOTE_ADDR']
+        )
+    ));
+}
 
 global $image_uploade_url;
 $image_uploade_url = "https://www.allthingspersonalised.com/wp-content";
