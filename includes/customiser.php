@@ -3,7 +3,7 @@ add_action("woocommerce_after_add_to_cart_quantity", "cnc_b2b_add_personalise_bu
 function cnc_b2b_add_personalise_button_product_page()
 {
     global $engrave_fonts;
-    if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) == "1") :
+    if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) == "1" && !has_term(array("kings-coronation"), 'product_cat')) :
 ?>
         <div class="cnc_b2b_personalise_button">
             <div class="Personalise-btn">
@@ -42,189 +42,182 @@ function cnc_b2b_add_personalise_button_product_page()
                     <div class="fullwidth notice-centeralised">All text will be centralised</div>
                 </div>
             </div>
-			<?php $postdata = (array)get_post_meta(get_the_ID(), "customiser_data", true); ?>
-<?php if($postdata['product_type_cnc']=='print') :
-				$path = $postdata['previewimage'];		
-				$type = pathinfo($path, PATHINFO_EXTENSION);
-				$data = file_get_contents($path);
-				$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-				global $cnc_b2b_url;
-    ?>
-    <input type="hidden" id="fileupload" value="<?php echo $cnc_b2b_url.'includes/fileupload.php'; ?>" />
-    <input type="hidden" id="frameurl" value="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '',$postdata['previewimage']); ?>" />
-    <input type="hidden" id="uploadNewUrl" value="" />
-    <input type="hidden" id="originalWidth" value="<?php echo $postdata['print_image_width']; ?>" />
-    <input type="hidden" id="originalHeight" value="<?php echo $postdata['print_image_height']; ?>" />
-    <input type="hidden" id="imageLeftBase" value="<?php echo $postdata['print_position_left']; ?>" />
-    <input type="hidden" id="imageTopBase" value="<?php echo $postdata['print_position_top']; ?>" />
-    <input type="hidden" id="imageLeft" value="" />
-    <input type="hidden" id="imageTop" value="" />
-    <input type="hidden" id="imageRotation" value="" />
-    <input type="hidden" id="print_url" name="print_url" value="" />
-    <input type="hidden" id="image_url" name="image_url" value="" />
-    
-    
-    <div class="customizationpopup" style="display:none;">
-        <div class="width_100 headSection" >
-            <h1>Customise Your Product</h1>
-            <span><button type="button" onclick="closepopup()" class="closeIcon"></button></span>
-        </div>
-        <div class="width_100 contentWrapper print" >
-                <div class="width_50 left" > 
-                    <div class="print_wrap" id="screenshort-wrapper" style="
+            <?php $postdata = (array)get_post_meta(get_the_ID(), "customiser_data", true); ?>
+            <?php if ($postdata['product_type_cnc'] == 'print') :
+                $path = $postdata['previewimage'];
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                global $cnc_b2b_url;
+            ?>
+                <input type="hidden" id="fileupload" value="<?php echo $cnc_b2b_url . 'includes/fileupload.php'; ?>" />
+                <input type="hidden" id="frameurl" value="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '', $postdata['previewimage']); ?>" />
+                <input type="hidden" id="uploadNewUrl" value="" />
+                <input type="hidden" id="originalWidth" value="<?php echo $postdata['print_image_width']; ?>" />
+                <input type="hidden" id="originalHeight" value="<?php echo $postdata['print_image_height']; ?>" />
+                <input type="hidden" id="imageLeftBase" value="<?php echo $postdata['print_position_left']; ?>" />
+                <input type="hidden" id="imageTopBase" value="<?php echo $postdata['print_position_top']; ?>" />
+                <input type="hidden" id="imageLeft" value="" />
+                <input type="hidden" id="imageTop" value="" />
+                <input type="hidden" id="imageRotation" value="" />
+                <input type="hidden" id="print_url" name="print_url" value="" />
+                <input type="hidden" id="image_url" name="image_url" value="" />
+
+
+                <div class="customizationpopup" style="display:none;">
+                    <div class="width_100 headSection">
+                        <h1>Customise Your Product</h1>
+                        <span><button type="button" onclick="closepopup()" class="closeIcon"></button></span>
+                    </div>
+                    <div class="width_100 contentWrapper print">
+                        <div class="width_50 left">
+                            <div class="print_wrap" id="screenshort-wrapper" style="
                         width : <?php echo $postdata['print_image_width']; ?>px;
                         height : <?php echo $postdata['print_image_height']; ?>px;
                         ">
-                        <!--<img src="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '',$postdata['previewimage']); ?>" style="-->
-                        <img src="<?php echo $base64; ?>" style="
+                                <!--<img src="<?php echo str_replace('secureservercdn.net/160.153.137.170/', '', $postdata['previewimage']); ?>" style="-->
+                                <img src="<?php echo $base64; ?>" style="
                         width : <?php echo $postdata['print_image_width']; ?>px;
                         height : <?php echo $postdata['print_image_height']; ?>px;
-                        "  />
-                        <div class="printarea" 
-                            style="
+                        " />
+                                <div class="printarea" style="
                             width: <?php echo $postdata['print_width']; ?>px;
                             height: <?php echo $postdata['print_height']; ?>px;
                             margin-top: <?php echo $postdata['print_position_top']; ?>px;
                             margin-left: <?php echo $postdata['print_position_left']; ?>px;
-                            "
-                        >
-                            <div id="imageWrapper" class="defaultState" style="
+                            ">
+                                    <div id="imageWrapper" class="defaultState" style="
                             width: <?php echo ($postdata['print_width'] - 10); ?>px;
-                            height: <?php echo ($postdata['print_height'] - 10); ?>px;" 
-                            hidden
-                            >
-                                <img id="imgLogo" 
-                              
-                                src="" alt=""  
-                                />
+                            height: <?php echo ($postdata['print_height'] - 10); ?>px;" hidden>
+                                        <img id="imgLogo" src="" alt="" />
+                                    </div>
+                                </div>
                             </div>
+                            <div class="notice width_100">Use your mouse to scale, move & rotate your image</div>
+                        </div>
+                        <div class="width_50 right">
+                            <div class="width_100 mobile_bc_action_button">
+                                <div class="width_30">
+                                    <div class="inline-block rotate-left"><i class="fa fa-undo"></i></div>
+                                    <div class="inline-block rotate-right"><i class="fa fa-repeat"></i></div>
+                                </div>
+                                <div class="width_30">
+                                    <div class="inline-block mv-left"><i class="fa fa-arrow-left"></i></div>
+                                    <div class="inline-block mv-right"><i class="fa fa-arrow-right"></i></div>
+                                    <div class="inline-block mv-up"><i class="fa fa-arrow-up"></i></div>
+                                    <div class="inline-block mv-down"><i class="fa fa-arrow-down"></i></div>
+                                </div>
+                                <div class="width_30">
+                                    <div class="inline-block zoomin"><i class="fa fa-search-minus"></i></div>
+                                    <div class="inline-block zoomout"><i class="fa fa-search-plus"></i></div>
+                                </div>
+                            </div>
+                            <h2>Image Upload</h2>
+                            <div class="width_100" />
+                            <input type="file" accept="jpg,jpeg,png,gif" name="userfileprint" onchange="readURL(this,'print')" />
+                        </div>
+                        <div class="width_100 remove_image">
+                            <button onclick="remove_image()" class="remove_image">Remove Image</button>
+                        </div>
+                        <div class="width_100 remove_image">
+
+                        </div>
+                        <div class="width_100">
+                            <button onclick="downloadimage()" class="confirm_print">Confirm Customisation</button>
                         </div>
                     </div>
-                    <div class="notice width_100">Use your mouse to scale, move & rotate your image</div>
                 </div>
-                <div class="width_50 right" >
-                    <div class="width_100 mobile_bc_action_button">
-                        <div class="width_30">
-                            <div class="inline-block rotate-left"><i class="fa fa-undo" ></i></div>
-                            <div class="inline-block rotate-right"><i class="fa fa-repeat" ></i></div>
-                        </div>
-                        <div class="width_30">
-                            <div class="inline-block mv-left"><i class="fa fa-arrow-left" ></i></div>
-                            <div class="inline-block mv-right"><i class="fa fa-arrow-right" ></i></div>
-                            <div class="inline-block mv-up"><i class="fa fa-arrow-up" ></i></div>
-                            <div class="inline-block mv-down"><i class="fa fa-arrow-down" ></i></div>
-                        </div>
-                        <div class="width_30">
-                            <div class="inline-block zoomin"><i class="fa fa-search-minus" ></i></div>
-                            <div class="inline-block zoomout"><i class="fa fa-search-plus" ></i></div>
-                        </div>
-                    </div>
-                    <h2>Image Upload</h2>
-                    <div class="width_100" />
-                        <input type="file" accept="jpg,jpeg,png,gif" name="userfileprint"   onchange="readURL(this,'print')"/>
-                    </div>
-                    <div class="width_100 remove_image" > 
-                            <button onclick="remove_image()" class="remove_image" >Remove Image</button>
-                    </div>
-                    <div class="width_100 remove_image" > 
-                        
-                    </div>
-                    <div class="width_100" > 
-                            <button onclick="downloadimage()" class="confirm_print" >Confirm Customisation</button>
-                    </div>
-                </div> 
         </div>
-    </div> 
     <?php
- endif; ?>
-<?php if($postdata['product_type_cnc']=='engrave'): ?>
-            <div class="customizationpopup" style="display:none;">
+            endif; ?>
+    <?php if ($postdata['product_type_cnc'] == 'engrave') : ?>
+        <div class="customizationpopup" style="display:none;">
+            <?php
+
+
+            $engrave_user_fonts = array();
+            ?>
+            <style id="personalised-style">
                 <?php
-                
-                
-                $engrave_user_fonts = array();
-                ?>
-                <style id="personalised-style">
-                    <?php
-                    $user_specific_fonts = get_option('cnc_b2b_user_specific_fonts');
-                    $rows = get_option('cnc_b2b_fonts');
-                    if (gettype($postdata['engrave_fonts']) == 'string') {
-                        $postdata['engrave_fonts'] = array($postdata['engrave_fonts']);
-                    }
+                $user_specific_fonts = get_option('cnc_b2b_user_specific_fonts');
+                $rows = get_option('cnc_b2b_fonts');
+                if (gettype($postdata['engrave_fonts']) == 'string') {
+                    $postdata['engrave_fonts'] = array($postdata['engrave_fonts']);
+                }
 
-                    if ($rows) {
-                        foreach ($rows as $row) {
+                if ($rows) {
+                    foreach ($rows as $row) {
 
-                            $engrave_fonts[str_replace(' ', '', $row->name_of_font)] = $row->name_of_font;
-                    ?>@font-face {
-                        font-family: "<?php echo $row->name_of_font ?>";
-                        src: url('<?php echo $row->font_file ?>');
-                    }
+                        $engrave_fonts[str_replace(' ', '', $row->name_of_font)] = $row->name_of_font;
+                ?>@font-face {
+                    font-family: "<?php echo $row->name_of_font ?>";
+                    src: url('<?php echo $row->font_file ?>');
+                }
 
-                    .<?php echo str_replace(' ', '', $row->name_of_font); ?> {
-                        font-family: '<?php echo $row->name_of_font ?>';
-                    }
+                .<?php echo str_replace(' ', '', $row->name_of_font); ?> {
+                    font-family: '<?php echo $row->name_of_font ?>';
+                }
 
-                    <?php
-                        }
-                    }
-
-                    if ($user_specific_fonts) {
-                        foreach ($user_specific_fonts as $user_font) {
-
-                            $engrave_user_fonts[str_replace(' ', '', $user_font->name_of_font)] = $user_font->name_of_font;
-                    ?>@font-face {
-                        font-family: "<?php echo $user_font->name_of_font ?>";
-                        src: url('<?php echo $user_font->font_file ?>');
-                    }
-
-                    .<?php echo str_replace(' ', '', $user_font->name_of_font); ?> {
-                        font-family: '<?php echo $user_font->name_of_font ?>';
-                    }
-
-                    <?php
-                        }
-                    }
-                    ksort($engrave_fonts);
-
-
-                    ?>
-                </style>
                 <?php
+                    }
+                }
+
+                if ($user_specific_fonts) {
+                    foreach ($user_specific_fonts as $user_font) {
+
+                        $engrave_user_fonts[str_replace(' ', '', $user_font->name_of_font)] = $user_font->name_of_font;
+                ?>@font-face {
+                    font-family: "<?php echo $user_font->name_of_font ?>";
+                    src: url('<?php echo $user_font->font_file ?>');
+                }
+
+                .<?php echo str_replace(' ', '', $user_font->name_of_font); ?> {
+                    font-family: '<?php echo $user_font->name_of_font ?>';
+                }
+
+                <?php
+                    }
+                }
+                ksort($engrave_fonts);
 
 
                 ?>
-                <div class="width_100 headSection">
-                    <h1>Customise Your Gift</h1>
-                    <span><button type="button" onclick="closepopup()" class="closeIcon"></button></span>
-                </div>
-                <div class="width_100 contentWrapper">
-                    <?php
-                    if (!empty($postdata['engrave_option_images'])) {
-                        foreach ($postdata['engrave_option_images'] as $key => $value) {
-                    ?>
-                            <input type="hidden" data-id="<?php echo $key ?>" class="image_variation_hidden" value="<?php echo $value; ?>" />
-                    <?php
-                        }
+            </style>
+            <?php
+
+
+            ?>
+            <div class="width_100 headSection">
+                <h1>Customise Your Gift</h1>
+                <span><button type="button" onclick="closepopup()" class="closeIcon"></button></span>
+            </div>
+            <div class="width_100 contentWrapper">
+                <?php
+                if (!empty($postdata['engrave_option_images'])) {
+                    foreach ($postdata['engrave_option_images'] as $key => $value) {
+                ?>
+                        <input type="hidden" data-id="<?php echo $key ?>" class="image_variation_hidden" value="<?php echo $value; ?>" />
+                <?php
                     }
-                    ?>
-                    <input type="hidden" class="variation_data_hidden" value='<?php echo json_encode($postdata['varialble_option'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE); ?>' />
-                    <input type="hidden" class="engrave_visible_font_customization" value='<?php echo ($postdata['engrave_visible_font_customization']); ?>' />
-                    <div class="width_50 left">
-                        <div class="print_wrap engrave" id="screenshort-wrapper" style="
+                }
+                ?>
+                <input type="hidden" class="variation_data_hidden" value='<?php echo json_encode($postdata['varialble_option'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE); ?>' />
+                <input type="hidden" class="engrave_visible_font_customization" value='<?php echo ($postdata['engrave_visible_font_customization']); ?>' />
+                <div class="width_50 left">
+                    <div class="print_wrap engrave" id="screenshort-wrapper" style="
                             height : <?php echo ($postdata['engrave_image_height'] + 10); ?>px;
                             width : <?php echo ($postdata['engrave_image_width'] + 10); ?>px;
                             ">
-                            <img class="engrave_main_image" src="<?php echo str_replace(array("es.", "aus.", "us.", "secureservercdn.net/160.153.137.170/"), '', $postdata['engravepreviewimage']); ?>" style="
+                        <img class="engrave_main_image" src="<?php echo str_replace(array("es.", "aus.", "us.", "secureservercdn.net/160.153.137.170/"), '', $postdata['engravepreviewimage']); ?>" style="
                                 width : <?php echo $postdata['engrave_image_width']; ?>px;
                                 height : <?php echo $postdata['engrave_image_height']; ?>px;
                                 " />
-                            <?php
-                            for ($i = 1; $i <= $postdata['engrave_no_of_customization']; $i++) {
-                            ?>
-                                <div class="font_frontend <?php if ($postdata['multiple_fonts'] == 1) {
-                                                                echo $postdata['engrave_fonts_' . $i];
-                                                            } ?>
+                        <?php
+                        for ($i = 1; $i <= $postdata['engrave_no_of_customization']; $i++) {
+                        ?>
+                            <div class="font_frontend <?php if ($postdata['multiple_fonts'] == 1) {
+                                                            echo $postdata['engrave_fonts_' . $i];
+                                                        } ?>
                                     <?php if ($postdata['engrave_fonts_override_' . $i] == 1) {
                                         echo 'override_this';
                                     } ?>
@@ -236,206 +229,206 @@ function cnc_b2b_add_personalise_button_product_page()
                                     height : <?php echo  $postdata['engrave_height_' . $i] ?>px;
                                     width : <?php echo  $postdata['engrave_width_' . $i] ?>px;
                                     " data-id="<?php echo $i; ?>"><?php $postdata['sample_text_' . $i]; ?>
-                                    <div class="cnc_font_actual"></div>
-                                </div>
-                                <input type="hidden" name="cnc_font_size_<?php echo $i; ?>" value="<?php echo  $postdata['font_size_' . $i] ?>" id="cnc_font_size_<?php echo $i; ?>" />
-                                <input type="hidden" name="cnc_current_font_size_<?php echo $i; ?>" value="<?php echo  $postdata['font_size_' . $i] ?>" id="cnc_current_font_size_<?php echo $i; ?>" />
-                            <?php
-                            }
-
-                            ?>
-
-                        </div>
-                        <div class="notice width_100 engravenotice">Note: Display is an approximate preview. final product may vary slightly, although we will notify of any major changes. We don't allow emojis.</div>
-                    </div>
-                    <div class="width_50 right">
-                        <?php
-                        if (count($postdata['engrave_fonts']) == 1) :
-                        ?>
-                            <input type="hidden" id="engrave_fonts" name="engrave_fonts" value="<?php echo $postdata['engrave_fonts'][0]; ?>">
-                        <?php
-
-                        else :
-                        ?>
-
-                            <div class="width_100" <?php if (isset($postdata['multiple_fonts']) && $postdata['multiple_fonts'] == 1) {
-                                                        echo 'style="display:none"';
-                                                    } ?>>
-                                <b>Font Choice</b>
+                                <div class="cnc_font_actual"></div>
                             </div>
-                            <div class="width_100" <?php if (isset($postdata['multiple_fonts']) && $postdata['multiple_fonts'] == 1) {
-                                                        echo 'style="display:none"';
-                                                    } ?>>
-                                <select name="engrave_fonts" id="engrave_fonts">
-                                    <?php
-                                    if (gettype($postdata['engrave_fonts']) == 'string') {
-                                        $postdata['engrave_fonts'] = array($postdata['engrave_fonts']);
-                                    }
-                                    $i = 0;
-                                    foreach ($engrave_fonts as $key => $font) :
-                                        // echo $key."--->";
-                                        // print_r($postdata['engrave_fonts']);
-                                        // echo "<br>";
-                                        if (!in_array($key, $postdata['engrave_fonts'])) :
-                                            continue;
-                                        endif;
-                                        if ($postdata['engrave_fonts'][0] == 'curlz' && $i == 0 && in_array('zapfchancery', $postdata['engrave_fonts'])) :
-                                            unset($engrave_fonts['$engrave_fonts']);
-                                    ?><option class="zapfchancery" value="zapfchancery">Zapf Chancery</option><?php
+                            <input type="hidden" name="cnc_font_size_<?php echo $i; ?>" value="<?php echo  $postdata['font_size_' . $i] ?>" id="cnc_font_size_<?php echo $i; ?>" />
+                            <input type="hidden" name="cnc_current_font_size_<?php echo $i; ?>" value="<?php echo  $postdata['font_size_' . $i] ?>" id="cnc_current_font_size_<?php echo $i; ?>" />
+                        <?php
+                        }
+
+                        ?>
+
+                    </div>
+                    <div class="notice width_100 engravenotice">Note: Display is an approximate preview. final product may vary slightly, although we will notify of any major changes. We don't allow emojis.</div>
+                </div>
+                <div class="width_50 right">
+                    <?php
+                    if (count($postdata['engrave_fonts']) == 1) :
+                    ?>
+                        <input type="hidden" id="engrave_fonts" name="engrave_fonts" value="<?php echo $postdata['engrave_fonts'][0]; ?>">
+                    <?php
+
+                    else :
+                    ?>
+
+                        <div class="width_100" <?php if (isset($postdata['multiple_fonts']) && $postdata['multiple_fonts'] == 1) {
+                                                    echo 'style="display:none"';
+                                                } ?>>
+                            <b>Font Choice</b>
+                        </div>
+                        <div class="width_100" <?php if (isset($postdata['multiple_fonts']) && $postdata['multiple_fonts'] == 1) {
+                                                    echo 'style="display:none"';
+                                                } ?>>
+                            <select name="engrave_fonts" id="engrave_fonts">
+                                <?php
+                                if (gettype($postdata['engrave_fonts']) == 'string') {
+                                    $postdata['engrave_fonts'] = array($postdata['engrave_fonts']);
+                                }
+                                $i = 0;
+                                foreach ($engrave_fonts as $key => $font) :
+                                    // echo $key."--->";
+                                    // print_r($postdata['engrave_fonts']);
+                                    // echo "<br>";
+                                    if (!in_array($key, $postdata['engrave_fonts'])) :
+                                        continue;
+                                    endif;
+                                    if ($postdata['engrave_fonts'][0] == 'curlz' && $i == 0 && in_array('zapfchancery', $postdata['engrave_fonts'])) :
+                                        unset($engrave_fonts['$engrave_fonts']);
+                                ?><option class="zapfchancery" value="zapfchancery">Zapf Chancery</option><?php
                                                                                                             endif;
                                                                                                             $i++;
                                                                                                                 ?>
-                                        <option class="<?php echo $key; ?>" value="<?php echo $key; ?>"><?php echo $font; ?></option>
-                                    <?php
-                                    endforeach;
-
-                                    foreach ($engrave_user_fonts as $key => $font) :
-                                    ?>
-                                        <option class="<?php echo $key; ?>" value="<?php echo $key; ?>"><?php echo $font; ?></option>
-                                    <?php
-                                    endforeach;
-                                    ?>
-                                </select>
-                            </div>
-                        <?php
-                        endif;
-                        ?>
-
-                        <?php if (isset($postdata['engrave_enable_clip_art'])) : ?>
-                            <div class="width_100">
-                                <b>Clip Art</b>
-                            </div>
-                            <div class="width_100">
-                                <select id="clipart" name="clipart">
-                                    <option value="">(not selected)</option>
-                                    <?php
-                                    foreach (get_option('cnc_b2b_cliparts') as $cliparts) {
-                                    ?>
-                                        <option data-height="<?php echo $cliparts->height; ?>" data-width="<?php echo $cliparts->width; ?>" value="<?php echo $cliparts->internal_name; ?>" data-image="<?php echo $cliparts->image; ?>"><?php echo $cliparts->name; ?></option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                                <div class="notice width_100 engravenotice" style="margin-top: 0;color: #fe0000;margin-bottom: 15px;">Note: While using a clipart you will not be able use the first two lines of text.</div>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($postdata['available_color'])) : ?>
-                            <div class="width_100">
-                                <b>Select Color</b>
-                            </div>
-                        <?php endif; ?>
-                        <div class="width_100 color_selection">
-
-                            <div class="engrave_color_selection width_100">
+                                    <option class="<?php echo $key; ?>" value="<?php echo $key; ?>"><?php echo $font; ?></option>
                                 <?php
+                                endforeach;
 
-
-                                $color = (substr($postdata['font_color_1'], 0, 1) == '#') ? $postdata['font_color_1'] : '#' . $postdata['font_color_1'];
-
-                                if (!empty($postdata['available_color_label'][0])) :
-
+                                foreach ($engrave_user_fonts as $key => $font) :
                                 ?>
-                                    <select class="engrave_color_class_select <?php if ($postdata['color_for_variation'] == '1') {
-                                                                                    echo 'color_for_variation';
-                                                                                } ?> <?php if ($postdata['override_font_color']) {
+                                    <option class="<?php echo $key; ?>" value="<?php echo $key; ?>"><?php echo $font; ?></option>
+                                <?php
+                                endforeach;
+                                ?>
+                            </select>
+                        </div>
+                    <?php
+                    endif;
+                    ?>
+
+                    <?php if (isset($postdata['engrave_enable_clip_art'])) : ?>
+                        <div class="width_100">
+                            <b>Clip Art</b>
+                        </div>
+                        <div class="width_100">
+                            <select id="clipart" name="clipart">
+                                <option value="">(not selected)</option>
+                                <?php
+                                foreach (get_option('cnc_b2b_cliparts') as $cliparts) {
+                                ?>
+                                    <option data-height="<?php echo $cliparts->height; ?>" data-width="<?php echo $cliparts->width; ?>" value="<?php echo $cliparts->internal_name; ?>" data-image="<?php echo $cliparts->image; ?>"><?php echo $cliparts->name; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <div class="notice width_100 engravenotice" style="margin-top: 0;color: #fe0000;margin-bottom: 15px;">Note: While using a clipart you will not be able use the first two lines of text.</div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($postdata['available_color'])) : ?>
+                        <div class="width_100">
+                            <b>Select Color</b>
+                        </div>
+                    <?php endif; ?>
+                    <div class="width_100 color_selection">
+
+                        <div class="engrave_color_selection width_100">
+                            <?php
+
+
+                            $color = (substr($postdata['font_color_1'], 0, 1) == '#') ? $postdata['font_color_1'] : '#' . $postdata['font_color_1'];
+
+                            if (!empty($postdata['available_color_label'][0])) :
+
+                            ?>
+                                <select class="engrave_color_class_select <?php if ($postdata['color_for_variation'] == '1') {
+                                                                                echo 'color_for_variation';
+                                                                            } ?> <?php if ($postdata['override_font_color']) {
                                                                                             echo 'override_font_color';
                                                                                         } ?>">
-                                        <option value="">Select Color</option>
-                                        <?php
-                                        foreach ($postdata['available_color_label'] as $key => $value) {
-                                            $color = (substr($postdata['available_color'][$key], 0, 1) == '#') ? $postdata['available_color'][$key] : '#' . $postdata['available_color'][$key];
-                                        ?>
-                                            <option data-id="1" data-image="<?php echo $postdata['available_color_image'][$key] ?>" data-label="<?php echo $value ?>" value="<?php echo $value ?>" data-color="<?php echo $color ?>"><?php echo $value ?></option>
-
-                                        <?php
-                                        }
-
-                                        ?>
-                                    </select>
-
+                                    <option value="">Select Color</option>
                                     <?php
-                                else :
-                                    if (!empty($postdata['available_color'])) :
-                                        foreach ($postdata['available_color'] as $key => $value) {
+                                    foreach ($postdata['available_color_label'] as $key => $value) {
+                                        $color = (substr($postdata['available_color'][$key], 0, 1) == '#') ? $postdata['available_color'][$key] : '#' . $postdata['available_color'][$key];
                                     ?>
+                                        <option data-id="1" data-image="<?php echo $postdata['available_color_image'][$key] ?>" data-label="<?php echo $value ?>" value="<?php echo $value ?>" data-color="<?php echo $color ?>"><?php echo $value ?></option>
 
-                                            <input type="radio" class="enagrave_color_class" data-id="1" value="<?php echo $value; ?>" id="enagrave_color_1_<?php echo $key; ?>" name="enagrave_color_1" <?php if ($color == $value) {
-                                                                                                                                                                                                                echo 'checked="checked"';
-                                                                                                                                                                                                            } ?> />
-                                            <label for="enagrave_color_1_<?php echo $key; ?>" style="background-color: <?php echo $value; ?>" />
-                                            </label>
-                                <?php
-                                        }
-                                    endif;
-                                endif;
-                                ?>
-                            </div>
-
-                        </div>
-                        <?php
-                        for ($i = 1; $i <= $postdata['engrave_no_of_customization']; $i++) {
-                        ?>
-                            <div class="width_100">
-                                <div class="width_50">
-                                    <div class="width_100 show_hide<?php echo $i; ?>"> &nbsp;
-                                        <!--<b>Line <?php echo $i; ?></b>-->
-                                    </div>
-                                </div>
-                                <div class="width_50">
-                                    <div class="width_100 show_hide<?php echo $i; ?>">
-                                        <strong>
-                                            <div class="total_font" data-id="<?php echo $i; ?>"><?php echo $postdata['max_character_' . $i]; ?></div>
-                                        </strong>
-                                        <input type="hidden" class="font_value_remaining" data-id="<?php echo $i; ?>" value="<?php echo $postdata['max_character_' . $i]; ?>" />
-                                        <input type="hidden" class="cnc_total_character" data-id="<?php echo $i; ?>" value="<?php echo $postdata['max_character_' . $i]; ?>" />
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="width_100 show_hide<?php echo $i; ?>">
-                                <input placeholder="Line <?php echo $i  ?>" class="font_value" data-id="<?php echo $i; ?>" value="<?php $postdata['sample_text_' . $i]; ?>" maxlength="<?php echo $postdata['max_character_' . $i]; ?>" />
-                            </div>
-
-                            <?php
-
-                            if ($postdata['engrave_font_size_type'] == 'fixed') {
-                            ?>
-                                <select name="cnc_font_size" id="cnc_font_size" class="cnc_font_size show_hide<?php echo $i; ?>" data-id="<?php echo $i; ?>">
-                                    <?php
-                                    for ($j = 30; $j >= 10; $j--) {
-                                    ?>
-                                        <option value=<?php echo $j; ?> <?php if ($j == $postdata['font_size_' . $i]) {
-                                                                            echo 'selected="selected"';
-                                                                        } ?>><?php echo $j; ?></option>
                                     <?php
                                     }
+
                                     ?>
                                 </select>
-                            <?php
-                            }
 
+                                <?php
+                            else :
+                                if (!empty($postdata['available_color'])) :
+                                    foreach ($postdata['available_color'] as $key => $value) {
+                                ?>
+
+                                        <input type="radio" class="enagrave_color_class" data-id="1" value="<?php echo $value; ?>" id="enagrave_color_1_<?php echo $key; ?>" name="enagrave_color_1" <?php if ($color == $value) {
+                                                                                                                                                                                                            echo 'checked="checked"';
+                                                                                                                                                                                                        } ?> />
+                                        <label for="enagrave_color_1_<?php echo $key; ?>" style="background-color: <?php echo $value; ?>" />
+                                        </label>
+                            <?php
+                                    }
+                                endif;
+                            endif;
                             ?>
+                        </div>
+
+                    </div>
+                    <?php
+                    for ($i = 1; $i <= $postdata['engrave_no_of_customization']; $i++) {
+                    ?>
+                        <div class="width_100">
+                            <div class="width_50">
+                                <div class="width_100 show_hide<?php echo $i; ?>"> &nbsp;
+                                    <!--<b>Line <?php echo $i; ?></b>-->
+                                </div>
+                            </div>
+                            <div class="width_50">
+                                <div class="width_100 show_hide<?php echo $i; ?>">
+                                    <strong>
+                                        <div class="total_font" data-id="<?php echo $i; ?>"><?php echo $postdata['max_character_' . $i]; ?></div>
+                                    </strong>
+                                    <input type="hidden" class="font_value_remaining" data-id="<?php echo $i; ?>" value="<?php echo $postdata['max_character_' . $i]; ?>" />
+                                    <input type="hidden" class="cnc_total_character" data-id="<?php echo $i; ?>" value="<?php echo $postdata['max_character_' . $i]; ?>" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="width_100 show_hide<?php echo $i; ?>">
+                            <input placeholder="Line <?php echo $i  ?>" class="font_value" data-id="<?php echo $i; ?>" value="<?php $postdata['sample_text_' . $i]; ?>" maxlength="<?php echo $postdata['max_character_' . $i]; ?>" />
+                        </div>
+
+                        <?php
+
+                        if ($postdata['engrave_font_size_type'] == 'fixed') {
+                        ?>
+                            <select name="cnc_font_size" id="cnc_font_size" class="cnc_font_size show_hide<?php echo $i; ?>" data-id="<?php echo $i; ?>">
+                                <?php
+                                for ($j = 30; $j >= 10; $j--) {
+                                ?>
+                                    <option value=<?php echo $j; ?> <?php if ($j == $postdata['font_size_' . $i]) {
+                                                                        echo 'selected="selected"';
+                                                                    } ?>><?php echo $j; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
                         <?php
                         }
+
                         ?>
-                        <div class="customisation-double-check">
-                            Have you double-checked your personalised details? <br>
-                            Personalisation details will be used as submitted
-                        </div>
-
-                        <div class="width_100">
-                            <button onclick="closepopup(true)" class="confirm_print">Confirm Customisation</button>
-
-                        </div>
-                        <input type="hidden" name="cnc_product_type" id="cnc_product_type" value="<?php echo $postdata['engrave_font_size_type']; ?>" />
+                    <?php
+                    }
+                    ?>
+                    <div class="customisation-double-check">
+                        Have you double-checked your personalised details? <br>
+                        Personalisation details will be used as submitted
                     </div>
+
+                    <div class="width_100">
+                        <button onclick="closepopup(true)" class="confirm_print">Confirm Customisation</button>
+
+                    </div>
+                    <input type="hidden" name="cnc_product_type" id="cnc_product_type" value="<?php echo $postdata['engrave_font_size_type']; ?>" />
                 </div>
             </div>
-<?php endif; ?>
         </div>
+    <?php endif; ?>
+    </div>
 <?php
     endif;
 }
