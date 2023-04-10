@@ -3,7 +3,7 @@ add_action("woocommerce_after_add_to_cart_quantity", "cnc_b2b_add_personalise_bu
 function cnc_b2b_add_personalise_button_product_page()
 {
     global $engrave_fonts;
-    if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) == "1" && !has_term(array("kings-coronation"), 'product_cat')) :
+    if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) == "1" && !has_term(array("kings-coronation"), 'product_cat') && !has_term(array("decorated-glassware"), 'product_cat')) :
 ?>
         <div class="cnc_b2b_personalise_button">
             <div class="Personalise-btn">
@@ -275,9 +275,9 @@ function cnc_b2b_add_personalise_button_product_page()
                                     if ($postdata['engrave_fonts'][0] == 'curlz' && $i == 0 && in_array('zapfchancery', $postdata['engrave_fonts'])) :
                                         unset($engrave_fonts['$engrave_fonts']);
                                 ?><option class="zapfchancery" value="zapfchancery">Zapf Chancery</option><?php
-                                                                                                            endif;
-                                                                                                            $i++;
-                                                                                                                ?>
+                                                                                                        endif;
+                                                                                                        $i++;
+                                                                                                            ?>
                                     <option class="<?php echo $key; ?>" value="<?php echo $key; ?>"><?php echo $font; ?></option>
                                 <?php
                                 endforeach;
@@ -332,8 +332,8 @@ function cnc_b2b_add_personalise_button_product_page()
                                 <select class="engrave_color_class_select <?php if ($postdata['color_for_variation'] == '1') {
                                                                                 echo 'color_for_variation';
                                                                             } ?> <?php if ($postdata['override_font_color']) {
-                                                                                            echo 'override_font_color';
-                                                                                        } ?>">
+                                                                                        echo 'override_font_color';
+                                                                                    } ?>">
                                     <option value="">Select Color</option>
                                     <?php
                                     foreach ($postdata['available_color_label'] as $key => $value) {

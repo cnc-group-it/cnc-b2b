@@ -44,7 +44,7 @@ add_action('cnc_b2b_fatch_singal_page', 'cnc_b2b_get_singal_page_pgs_product');
 
 function cnc_b2b_get_singal_page_pgs_product($page)
 {
-    $url = "https://personalisedgiftsupply.com/api/reseller-api/v1/product/all_products/?page=" . $page . "&size=10&max_rrp=".get_option("cnc_b2b_maximum_rrp");
+    $url = "https://personalisedgiftsupply.com/api/reseller-api/v2/product/all_products/?page=" . $page . "&size=10&max_rrp=" . get_option("cnc_b2b_maximum_rrp") . "&range_type=" . implode(",", get_option("cnc_b2b_product_ranges"));
     $args = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -55,11 +55,11 @@ function cnc_b2b_get_singal_page_pgs_product($page)
     $responsedata = wp_remote_get($url, $args);
     $data = wp_remote_retrieve_body($responsedata);
     $body = json_decode($data, true);
-    
+
     if ($body['statusCode'] == 200) {
         foreach ($body['data']['product'] as $product) {
             $post_id = cnc_b2b_create_post_to_pgs_product($product);
-			
+
             if ($post_id) {
                 cnc_b2b_create_product_for_wooconnerce($post_id, true);
             }

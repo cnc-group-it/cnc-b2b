@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.42
+ * Version:           0.0.43
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -214,7 +214,7 @@ add_filter('body_class', function ($classes) {
         if ($post->post_type == "product" && get_post_meta($post->ID, "cnc_b2b_bigcommerce_sku", true)) {
 
             $classes[] = "cnc_b2b_product";
-            if (has_term(array("kings-coronation"), 'product_cat', $post->ID)) {
+            if (has_term(array("kings-coronation"), 'product_cat', $post->ID) || has_term(array("decorated-glassware"), 'product_cat', $post->ID)) {
                 $classes[] = "cnc_b2b_product_with_no_configurator";
             }
         }
@@ -681,7 +681,7 @@ function cnc_b2b_is_configutor_reqire($product)
     if ($product['category']) {
         $flag = false;
         foreach ($product['category'] as $category) {
-            if ($category['slug'] == "kings-coronation") {
+            if ($category['slug'] == "kings-coronation" || $category['slug'] == "decorated-glassware") {
                 $flag = true;
             }
         }
