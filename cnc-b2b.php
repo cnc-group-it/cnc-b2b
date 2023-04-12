@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.43
+ * Version:           0.0.44
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -459,7 +459,7 @@ add_filter('woocommerce_loop_add_to_cart_link', 'cnc_b2b_shop_page_add_to_cart_c
 function cnc_b2b_shop_page_add_to_cart_callback($button, $product)
 {
     if (is_product_category() || is_shop()) {
-        if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true)) {
+        if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) && !has_term(array("kings-coronation"), 'product_cat') && !has_term(array("decorated-glassware"), 'product_cat')) {
             $button_text = __("Personalise", "woocommerce");
             $button_link = $product->get_permalink();
             $button = '<div class="cnc_b2b_personalise_button">
@@ -651,21 +651,29 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
         }
 
         $gallery_images = array();
+        $i = 1;
         foreach ($images as $key => $image) {
-            $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image);
-            if ($image_is_exist) {
-                $attachmentId = $image_is_exist;
-            } else {
-                $file = array();
-                $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-                $file['tmp_name'] = download_url($image_uploade_url . $image);
-                $attachmentId = media_handle_sideload($file);
-                update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
-                unlink($file['tmp_name']);
+            $flag = true;
+            if (has_term(array("decorated-glassware"), 'product_cat', $post_id) && $i == 6) {
+                $flag = false;
             }
-            if (!is_wp_error($attachmentId)) {
-                $gallery_images[] = $attachmentId;
+            if ($flag) {
+                $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image);
+                if ($image_is_exist) {
+                    $attachmentId = $image_is_exist;
+                } else {
+                    $file = array();
+                    $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                    $file['tmp_name'] = download_url($image_uploade_url . $image);
+                    $attachmentId = media_handle_sideload($file);
+                    update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
+                    unlink($file['tmp_name']);
+                }
+                if (!is_wp_error($attachmentId)) {
+                    $gallery_images[] = $attachmentId;
+                }
             }
+            $i++;
         }
         update_post_meta($post_id, '_product_image_gallery', implode(',', $gallery_images));
         //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
