@@ -45,7 +45,16 @@ function cnc_b2b_order_sync_by_id($order_id)
 
 function cnc_b2b_order_item_sync_to_pgs($order, $item_id, $item)
 {
-
+    $cnc_b2b_next_day_shipping = get_option("cnc_b2b_next_day_shipping");
+    $sipping_total = $order->get_shipping_total();
+    $next_day = false;
+    if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "enable_next_day_shipping") {
+        if ($sipping_total > 0) {
+            $next_day = true;
+        }
+    } else if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "all_orders_to_next_day") {
+        $next_day = true;
+    }
     $custom_field = get_post_meta($product_id, '_tmcartepo_data', true);
     $data = array(
         "order_id" => $order->get_id(),
@@ -56,7 +65,7 @@ function cnc_b2b_order_item_sync_to_pgs($order, $item_id, $item)
         "item_number" =>  get_post_meta($item->get_product_id(), 'cnc_b2b_bigcommerce_sku', true),
         "quantity" => $item->get_quantity(),
         "shipping_type" => wc_get_order_item_meta($item_id, 'shipping_type', true),
-        "next_day" => wc_get_order_item_meta($item_id, 'next_day', true),
+        "next_day" => ($next_day ? 1 : 0),
         "customer_name" => (!empty($order->get_shipping_first_name()) && !empty($order->get_shipping_last_name())) ? $order->get_shipping_first_name() . " " . $order->get_shipping_last_name() : $order->get_billing_first_name() . " " . $order->get_billing_last_name(),
         "address_line_1" => $order->get_shipping_address_1() ? $order->get_shipping_address_1() : $order->get_billing_address_1(),
         "address_line_2" => $order->get_shipping_address_2() ? $order->get_shipping_address_2() : $order->get_billing_address_2(),

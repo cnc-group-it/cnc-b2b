@@ -11,6 +11,7 @@ if (isset($_POST['cnc_b2b_save_sync_order_setting'])) {
     update_option("cnc_b2b_price_for_product", $_POST["cnc_b2b_price_for_product"]);
     update_option("cnc_b2b_maximum_rrp", $_POST["cnc_b2b_maximum_rrp"]);
     update_option("cnc_b2b_product_ranges", $_POST["cnc_b2b_product_ranges"]);
+    update_option("cnc_b2b_next_day_shipping", $_POST["cnc_b2b_next_day_shipping"]);
 }
 
 $cnc_b2b_import_all = get_option("cnc_b2b_import_all") ? get_option("cnc_b2b_import_all") : "0";
@@ -24,6 +25,7 @@ $cnc_b2b_round_up_the_nearest = get_option("cnc_b2b_round_up_the_nearest");
 $cnc_b2b_price_for_product = get_option("cnc_b2b_price_for_product");
 $cnc_b2b_maximum_rrp = get_option("cnc_b2b_maximum_rrp");
 $cnc_b2b_product_ranges = get_option("cnc_b2b_product_ranges");
+$cnc_b2b_next_day_shipping = get_option("cnc_b2b_next_day_shipping");
 ?>
 <div class="cnc_b2b_order_settings_page">
     <div class="page_title cnc_special_title">
@@ -69,6 +71,22 @@ $cnc_b2b_product_ranges = get_option("cnc_b2b_product_ranges");
                 </div>
             </div>
 
+            <div class="order_type_wrap">
+                <h3>Next Day Shipping</h3>
+                <p>When this is enabled if you charge shipping cost the order will be marked as paid shipping and upgraded to next day delivery, this will incur a charge on your account.</p>
+                <div class="radio_wrap">
+                    <input type="radio" name="cnc_b2b_next_day_shipping" value="enable_next_day_shipping" id="enable_next_day_shipping" <?php if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "enable_next_day_shipping") {
+                                                                                                                                            echo "checked='checked'";
+                                                                                                                                        } ?> />
+                    <label for="enable_next_day_shipping">Enable next day shipping</label>
+                </div>
+                <div class="radio_wrap">
+                    <input type="radio" name="cnc_b2b_next_day_shipping" value="all_orders_to_next_day" id="all_orders_to_next_day" <?php if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "all_orders_to_next_day") {
+                                                                                                                                        echo "checked='checked'";
+                                                                                                                                    } ?> />
+                    <label for="all_orders_to_next_day">Upgrade all orders to next day regardless of shipping cost</label>
+                </div>
+            </div>
             <div class="order_type_wrap">
                 <h3>Automatically Process Orders</h3>
                 <p>If this is ticked your orders will automatically be updated to completed once the order has been dispatched from Personalised Gift Supply.</p>
