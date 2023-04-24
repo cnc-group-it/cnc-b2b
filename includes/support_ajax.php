@@ -54,6 +54,8 @@ function cnc_b2b_order_item_sync_to_pgs($order, $item_id, $item)
         }
     } else if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "all_orders_to_next_day") {
         $next_day = true;
+    } else if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "disable_next_day_shipping") {
+        $next_day = false;
     }
     $custom_field = get_post_meta($product_id, '_tmcartepo_data', true);
     $data = array(

@@ -86,6 +86,12 @@ $cnc_b2b_next_day_shipping = get_option("cnc_b2b_next_day_shipping");
                                                                                                                                     } ?> />
                     <label for="all_orders_to_next_day">Upgrade all orders to next day regardless of shipping cost</label>
                 </div>
+                <div class="radio_wrap">
+                    <input type="radio" name="cnc_b2b_next_day_shipping" value="disable_next_day_shipping" id="disable_next_day_shipping" <?php if ($cnc_b2b_next_day_shipping && $cnc_b2b_next_day_shipping == "disable_next_day_shipping") {
+                                                                                                                                                echo "checked='checked'";
+                                                                                                                                            } ?> />
+                    <label for="disable_next_day_shipping">Disable next day shipping</label>
+                </div>
             </div>
             <div class="order_type_wrap">
                 <h3>Automatically Process Orders</h3>
