@@ -13,24 +13,43 @@ Here is a short description of the plugin.  This should be no more than 150 char
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+The Personalised Gift Supply WordPress Plugin: Seamless Integration of Customisable Products for Your Website
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+The Personalised Gift Supply WordPress Plugin offers a convenient solution for effortlessly incorporating our extensive range of personalised products into your WordPress website. With our plugin, you can enhance your online store by allowing your customers to order unique and customisable gifts.
+Key Features:
 
-A few notes about the sections above:
+1.	Extensive Product Selection: Our plugin provides access to a wide inventory of personalised gifts, including glassware, t-shirts, photo frames, keychains, and more. We are continuously expanding our product range to cater to the diverse preferences of your customers.
 
-* "Contributors" is a comma separated list of wordpress.org usernames
-* "Tags" is a comma separated list of tags that apply to the plugin
-* "Requires at least" is the lowest version that the plugin will work on
-* "Tested up to" is the highest version that you've *successfully used to test the plugin*
-* Stable tag must indicate the Subversion "tag" of the latest stable version
+2.	Live Preview: Provide an engaging shopping experience by enabling your customers to visualize their personalised designs in real-time. With our plugin, they can preview their customisations before placing their orders, ensuring complete satisfaction.
 
-Note that the `readme.txt` value of stable tag is the one that is the defining one for the plugin.  If the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used for displaying information about the plugin.
+3.	Streamlined Order Fulfillment: Once an order is placed through your website, our plugin simplifies the fulfillment process. We take care of manufacturing and packaging, ensuring a seamless experience for both you and your customers.
 
-If you develop in trunk, you can update the trunk `readme.txt` to reflect changes in your in-development version, without having that information incorrectly disclosed about the current stable version that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
+4.	Automated Updates: Keep your customers informed about the status of their orders. Our plugin automatically updates your website with tracking numbers and other essential information, enabling your customers to track their orders effortlessly.
 
-If no stable tag is provided, your users may not get the correct version of your code.
+5.	Discreet Packaging: We understand the significance of privacy and confidentiality. All orders are dispatched in plain packaging, ensuring that the contents remain a surprise until opened by the recipient.
+
+6.	Next Day Delivery: We offer fast delivery options, including next day delivery seven days a week. Your customers can enjoy timely shipping, enhancing their satisfaction with their personalised gifts.
+
+7.	Continuous Product Expansion: We are dedicated to continually expanding our product range to meet the demands of your customers. Our team regularly introduces new and innovative personalised gift options, ensuring your website remains fresh and appealing to shoppers.
+
+With the Personalised Gift Supply WordPress Plugin, you can seamlessly integrate our customisable products into your WordPress website, provide live previews, ensure efficient order fulfillment, and offer timely delivery options. Expand your product offerings and exceed customer expectations with our comprehensive and user-friendly plugin. Join us today and take your online store to new heights of success.
+
+Privacy Policy for the Personalised Gift Supply WordPress Plugin
+
+At Personalised Gift Supply, we prioritize the privacy and security of our users' personal information. This Privacy Policy outlines how we collect, use, and protect the data provided by our customers through the Personalised Gift Supply WordPress Plugin. By using our plugin, you consent to the practices described below.
+
+1.	Information Collection and Use: a. Customer Data: To facilitate the manufacturing and shipping process of orders, we collect certain customer information. This includes but is not limited to names, addresses, contact details, and order specifications. We solely use this data for the purpose of order fulfillment. b. Third-Party Integration: We may integrate with external services, such as customer data suppliers and courier services, to streamline our operations. In such cases, we may share the necessary customer data with these trusted third parties, strictly limited to the manufacturing and shipping process.
+
+2.	Data Retention and Deletion: a. Retention Period: Once the order has been successfully processed, we retain the customer data for a limited period necessary to address any inquiries, fulfill any additional requests, and comply with legal obligations. b. Data Deletion: After the order has been shipped and delivered, we promptly delete all customer data from our systems, ensuring that no personal information is retained beyond what is necessary for order fulfillment.
+
+3.	Data Security: a. Protection Measures: We implement industry-standard security measures to protect customer data from unauthorized access, alteration, or disclosure. Our systems undergo regular security audits to ensure the integrity and confidentiality of the information we handle. b. No Third-Party Sharing: We do not sell, trade, or otherwise transfer customer data to third parties for any purpose other than manufacturing and shipping the order.
+
+4.	Legal Compliance: a. Regulatory Requirements: We comply with all applicable laws and regulations concerning the collection, use, and protection of customer data. We strive to ensure that our practices align with international privacy standards. b. Change of Ownership: In the event of a merger, acquisition, or transfer of assets, customer data may be transferred as part of the business transition, subject to the same level of privacy protection as outlined in this Privacy Policy.
+
+5.	Consent and Modifications: a. Consent: By using the Personalised Gift Supply WordPress Plugin, you consent to the collection, use, and processing of your personal information as described in this Privacy Policy. b. Policy Changes: We reserve the right to modify or update this Privacy Policy at any time. Any changes made will be effective immediately upon posting the revised policy within the plugin. It is your responsibility to review this policy periodically for any updates.
+
+If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at support@personalisedgiftsupply.com We are committed to addressing your inquiries and resolving any issues promptly.
+
 
 == Frequently Asked Questions ==
 
