@@ -3,7 +3,9 @@ add_action("woocommerce_after_add_to_cart_quantity", "cnc_b2b_add_personalise_bu
 function cnc_b2b_add_personalise_button_product_page()
 {
     global $engrave_fonts;
-    if (get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) == "1" && !has_term(array("kings-coronation"), 'product_cat') && !has_term(array("decorated-glassware"), 'product_cat')) :
+
+    $postdata = (array)get_post_meta(get_the_ID(), "customiser_data", true);
+    if (in_array($postdata['product_type_cnc'], array('print', 'engrave')) && get_post_meta(get_the_ID(), "cnc_b2b_bigcommerce_product", true) == "1" && !has_term(array("kings-coronation"), 'product_cat') && !has_term(array("decorated-glassware"), 'product_cat')) :
 ?>
         <div class="cnc_b2b_personalise_button">
             <div class="Personalise-btn">
@@ -42,7 +44,6 @@ function cnc_b2b_add_personalise_button_product_page()
                     <div class="fullwidth notice-centeralised">All text will be centralised</div>
                 </div>
             </div>
-            <?php $postdata = (array)get_post_meta(get_the_ID(), "customiser_data", true); ?>
             <?php if ($postdata['product_type_cnc'] == 'print') :
                 $path = $postdata['previewimage'];
                 $type = pathinfo($path, PATHINFO_EXTENSION);
