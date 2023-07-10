@@ -143,6 +143,20 @@ $cnc_b2b_next_day_shipping = get_option("cnc_b2b_next_day_shipping");
                                                                                                                                 ?> />
                     <label for="decorated_glassware">Decorated Glassware</label>
                 </div>
+                <div class="radio_wrap">
+                    <input type="checkbox" name="cnc_b2b_product_ranges[]" value="engraved_trophies" id="engraved_trophies" <?php if ($cnc_b2b_product_ranges && in_array("engraved_trophies", $cnc_b2b_product_ranges)) {
+                                                                                                                                echo "checked='checked'";
+                                                                                                                            }
+                                                                                                                            ?> />
+                    <label for="engraved_trophies">Engraved Trophies</label>
+                </div>
+                <div class="radio_wrap">
+                    <input type="checkbox" name="cnc_b2b_product_ranges[]" value="say_it_with_glass" id="say_it_with_glass" <?php if ($cnc_b2b_product_ranges && in_array("say_it_with_glass", $cnc_b2b_product_ranges)) {
+                                                                                                                                echo "checked='checked'";
+                                                                                                                            }
+                                                                                                                            ?> />
+                    <label for="say_it_with_glass">Say it with Glass</label>
+                </div>
             </div>
 
             <div class="order_type_wrap">
