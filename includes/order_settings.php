@@ -12,6 +12,7 @@ if (isset($_POST['cnc_b2b_save_sync_order_setting'])) {
     update_option("cnc_b2b_maximum_rrp", $_POST["cnc_b2b_maximum_rrp"]);
     update_option("cnc_b2b_product_ranges", $_POST["cnc_b2b_product_ranges"]);
     update_option("cnc_b2b_next_day_shipping", $_POST["cnc_b2b_next_day_shipping"]);
+    update_option('cnc_b2b_photography_images_as_main_image',$_POST["cnc_b2b_photography_images_as_main_image"]);
 }
 
 $cnc_b2b_import_all = get_option("cnc_b2b_import_all") ? get_option("cnc_b2b_import_all") : "0";
@@ -26,6 +27,7 @@ $cnc_b2b_price_for_product = get_option("cnc_b2b_price_for_product");
 $cnc_b2b_maximum_rrp = get_option("cnc_b2b_maximum_rrp");
 $cnc_b2b_product_ranges = get_option("cnc_b2b_product_ranges");
 $cnc_b2b_next_day_shipping = get_option("cnc_b2b_next_day_shipping");
+$cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_images_as_main_image");
 ?>
 <div class="cnc_b2b_order_settings_page">
     <div class="page_title cnc_special_title">
@@ -158,6 +160,18 @@ $cnc_b2b_next_day_shipping = get_option("cnc_b2b_next_day_shipping");
                     <label for="say_it_with_glass">Say it with Glass</label>
                 </div>
             </div>
+            <!--......................................................................................................................................................................-->
+            <div class="order_type_wrap">
+                <h3>Enable lifestyle image as main product image</h3>
+                <p>When selected, if available a lifestyle image will be used as the main product image rather than a white background image.</p>
+                <div class="radio_wrap">
+                    <input type="checkbox" name="cnc_b2b_photography_images_as_main_image" id="photography_images_as_main_image" <?php if ($cnc_b2b_photography_images_as_main_image == "on") {
+                                                                                                                                echo "checked='checked'";
+                                                                                                                            } ?>/>
+                    <label for="photography_images_as_main_image">Enable</label>
+                </div>
+            </div>
+            <!--......................................................................................................................................................................-->
 
             <div class="order_type_wrap">
                 <h3>Import All ?</h3>
