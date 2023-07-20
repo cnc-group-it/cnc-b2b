@@ -75,6 +75,7 @@ include "includes/update_stock.php";
 include "includes/update_status.php";
 include "includes/update_product.php";
 include "includes/upload_all_pgs_product.php";
+include "includes/webhook.php";
 include "includes/customiser.php";
 function cnc_b2b_product_get()
 {
@@ -533,7 +534,7 @@ function cnc_b2b_create_post_to_pgs_product($product)
         return false;
     }
 }
-
+// ......................................................................................//
 function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
 {
     global $image_uploade_url;
@@ -633,50 +634,107 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
         update_post_meta($post_id, "reseller_pricing", get_post_meta($product_id, "reseller_pricing", true));
 
         //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
-        $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
-
-        $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-        $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
-        if ($image_is_exist) {
-            $attachmentId = $image_is_exist;
-        } else {
-            $file = array();
-            $file['name'] = get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-            $file['tmp_name'] = download_url($thamnail_url);
-            $attachmentId = media_handle_sideload($file, $post_id);
-            update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
-            unlink($file['tmp_name']);
-        }
-        if (!is_wp_error($attachmentId)) {
-            set_post_thumbnail($post_id, $attachmentId);
-        }
-
-        $gallery_images = array();
-        $i = 1;
-        foreach ($images as $key => $image) {
-            $flag = true;
-            if (has_term(array("decorated-glassware"), 'product_cat', $post_id) && $i == 6) {
-                $flag = false;
-            }
-            if ($flag) {
-                $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image);
-                if ($image_is_exist) {
-                    $attachmentId = $image_is_exist;
-                } else {
-                    $file = array();
-                    $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
-                    $file['tmp_name'] = download_url($image_uploade_url . $image);
-                    $attachmentId = media_handle_sideload($file);
-                    update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
-                    unlink($file['tmp_name']);
+                $images = explode(",", get_post_meta($product_id, "reseller_pricing", true)['Images']);
+                $cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_images_as_main_image");
+                $image_of_scond_url = "";
+                $image_of_scond_folder = false;
+                print_r(get_post_meta($product_id, "reseller_pricing", true));
+                foreach ($images as $key => $image) {
+                    $pos = strpos($image,"Reseller%20Images/Image%202");
+                    if($pos && $cnc_b2b_photography_images_as_main_image == "on"){
+                        $image_of_scond_folder = true;
+                        $image_of_scond_url = $images[$key];
+                        unset($images[$key]);
+                    }
                 }
-                if (!is_wp_error($attachmentId)) {
-                    $gallery_images[] = $attachmentId;
+                
+                if($image_of_scond_folder){
+                    $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image_of_scond_url);
+                    if ($image_is_exist) {
+                        $attachmentId = $image_is_exist;
+                    } else {
+                        $file = array();
+                        $file['name'] = get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                        $file['tmp_name'] = download_url($image_uploade_url . $image_of_scond_url);
+                        // print_r($file);
+                        if (!is_wp_error($file['tmp_name'])) {
+                            $attachmentId = media_handle_sideload($file);
+                            update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image_of_scond_url);
+                            unlink($file['tmp_name']);
+                        }
+                    }
+                    // print_r($attachmentId);
+                    if (!is_wp_error($attachmentId)) {
+                        set_post_thumbnail($post_id, $attachmentId);
+                    }
+                }else{
+            $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                    $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
+                    if ($image_is_exist) {
+                        $attachmentId = $image_is_exist;
+                    } else {
+                        $file = array();
+                        $file['name'] = get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                        $file['tmp_name'] = download_url($thamnail_url);
+                        if (!is_wp_error($file['tmp_name'])) {
+                            $attachmentId = media_handle_sideload($file, $post_id);
+                            update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
+                            unlink($file['tmp_name']);
+                        }
+                    }
+                    if (!is_wp_error($attachmentId)) {
+                        set_post_thumbnail($post_id, $attachmentId);
+                    }
                 }
-            }
-            $i++;
-        }
-        update_post_meta($post_id, '_product_image_gallery', implode(',', $gallery_images));
+                $gallery_images = array();
+                $i = 1;
+                
+                if($image_of_scond_folder){
+            $thamnail_url = $image_uploade_url . "/uploads/Images/PlainImages/" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                    $image_is_exist = cnc_b2b_is_image_exist($thamnail_url);
+                    if ($image_is_exist) {
+                        $attachmentId = $image_is_exist;
+                    } else {
+                        $file = array();
+                        $file['name'] = $key . "-gallery-" .get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                        $file['tmp_name'] = download_url($thamnail_url);
+                        if (!is_wp_error($file['tmp_name'])) {
+                            $attachmentId = media_handle_sideload($file, $post_id);
+                            update_post_meta($attachmentId, "cnc_b2b_reference_url", $thamnail_url);
+                            unlink($file['tmp_name']);
+                        }
+                    }
+                    if (!is_wp_error($attachmentId)) {
+                        $gallery_images[] = $attachmentId;
+                    }
+                    $i++;
+                }
+                foreach ($images as $key => $image) {
+                    $flag = true;
+                    if(has_term(array("decorated-glassware"), 'product_cat',$post_id) && $i == 6){
+                        $flag = false;
+                    }
+                    if($flag){
+                        $image_is_exist = cnc_b2b_is_image_exist($image_uploade_url . $image);
+                        if ($image_is_exist) {
+                            $attachmentId = $image_is_exist;
+                        } else {
+                            $file = array();
+                            $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                            $file['tmp_name'] = download_url($image_uploade_url . $image);
+                            if (!is_wp_error($file['tmp_name'])) {
+                                $attachmentId = media_handle_sideload($file);
+                                update_post_meta($attachmentId, "cnc_b2b_reference_url", $image_uploade_url . $image);
+                                unlink($file['tmp_name']);
+                            }
+                        }
+                        if (!is_wp_error($attachmentId)) {
+                            $gallery_images[] = $attachmentId;
+                        }
+                    }
+                    $i++;
+                }
+                update_post_meta($post_id, '_product_image_gallery', implode(',', $gallery_images));
         //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
 
         return $post_id;
