@@ -638,7 +638,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                 $cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_images_as_main_image");
                 $image_of_scond_url = "";
                 $image_of_scond_folder = false;
-                print_r(get_post_meta($product_id, "reseller_pricing", true));
+               // print_r(get_post_meta($product_id, "reseller_pricing", true));
                 foreach ($images as $key => $image) {
                     $pos = strpos($image,"Reseller%20Images/Image%202");
                     if($pos && $cnc_b2b_photography_images_as_main_image == "on"){
