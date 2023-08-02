@@ -12,7 +12,7 @@ if (isset($_POST['cnc_b2b_save_sync_order_setting'])) {
     update_option("cnc_b2b_maximum_rrp", $_POST["cnc_b2b_maximum_rrp"]);
     update_option("cnc_b2b_product_ranges", $_POST["cnc_b2b_product_ranges"]);
     update_option("cnc_b2b_next_day_shipping", $_POST["cnc_b2b_next_day_shipping"]);
-    update_option('cnc_b2b_photography_images_as_main_image',$_POST["cnc_b2b_photography_images_as_main_image"]);
+    update_option('cnc_b2b_photography_images_as_main_image', $_POST["cnc_b2b_photography_images_as_main_image"]);
 }
 
 $cnc_b2b_import_all = get_option("cnc_b2b_import_all") ? get_option("cnc_b2b_import_all") : "0";
@@ -166,8 +166,8 @@ $cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_imag
                 <p>When selected, if available a lifestyle image will be used as the main product image rather than a white background image.</p>
                 <div class="radio_wrap">
                     <input type="checkbox" name="cnc_b2b_photography_images_as_main_image" id="photography_images_as_main_image" <?php if ($cnc_b2b_photography_images_as_main_image == "on") {
-                                                                                                                                echo "checked='checked'";
-                                                                                                                            } ?>/>
+                                                                                                                                        echo "checked='checked'";
+                                                                                                                                    } ?> />
                     <label for="photography_images_as_main_image">Enable</label>
                 </div>
             </div>
@@ -202,7 +202,7 @@ $cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_imag
                 <p>Here you're able to state how you would like your products priced.</p>
                 <p>Set my own pricing - Will initially pull our RRP but you're then able to manually set each product to the price you would like</p>
                 <p>Suggested RRP - This will take use our RRP and continually update the RRP as products become cheaper or more expensive your RRP will fluctuate up and down making you roughly a 35% margin on each item.</p>
-                <p>Custom Margin - This will allow you to set your own margin, after this has been selected you will need to click save which will enable two extra fields "Margin" and "Deduct from pricing" once your margin has been set your products will be rounded up to the nearest pound you can then set the value you wish to deduct from the price, for example you wish for your products to round to the nearest 99p you would select 0.01 in this field.</p>
+                <p>Custom Markup - This will allow you to set your own markup, after this has been selected you will need to click save which will enable two extra fields "Markup" and "Deduct from pricing" once your markup has been set your products will be rounded up to the nearest pound you can then set the value you wish to deduct from the price, for example you wish for your products to round to the nearest 99p you would select 0.01 in this field.</p>
                 <div class="radio_wrap">
                     <select class="pricing_option" name="cnc_b2b_price_for_product">
                         <option value="set_own_price" <?php if ($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "set_own_price") {
@@ -213,7 +213,7 @@ $cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_imag
                                                         } ?>>Suggested RRP</option>
                         <option value="custom_margin" <?php if ($cnc_b2b_price_for_product && $cnc_b2b_price_for_product == "custom_margin") {
                                                             echo "selected";
-                                                        } ?>>Custom Margin</option>
+                                                        } ?>>Custom Markup</option>
                     </select>
                 </div>
             </div>
@@ -224,7 +224,7 @@ $cnc_b2b_photography_images_as_main_image = get_option("cnc_b2b_photography_imag
                                                     echo "style='display: none;'";
                                                 } ?>>
                 <div class="order_type_wrap">
-                    <h3>Margin: </h3>
+                    <h3>Markup in %: </h3>
                     <div class="radio_wrap margin_input">
                         <input type="text" name="cnc_b2b_margin_for_ragular_price" id="cnc_b2b_margin_for_ragular_price" value="<?php if ($cnc_b2b_margin_for_ragular_price) {
                                                                                                                                     echo $cnc_b2b_margin_for_ragular_price;
