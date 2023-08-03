@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Personalised Gift Supply - Listing Tool
  * Description:       The All-in-one Personalised Gift Supply listing tool, helps in listing products, with customisers and order processing. The easiest way to get Personalised Gifts for sale.
- * Version:           0.0.51
+ * Version:           0.0.52
  * Author:            Akshar Soft Solutions
  * Author URI:        http://aksharsoftsolutions.com/
  * License:           GPL v2 or later
@@ -696,7 +696,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                 $attachmentId = $image_is_exist;
             } else {
                 $file = array();
-                $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                $file['name'] = $i . "-gallery-image-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
                 $file['tmp_name'] = download_url($thamnail_url);
                 if (!is_wp_error($file['tmp_name'])) {
                     $attachmentId = media_handle_sideload($file, $post_id);
@@ -706,8 +706,8 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
             }
             if (!is_wp_error($attachmentId)) {
                 $gallery_images[] = $attachmentId;
+                $i++;
             }
-            $i++;
         }
         foreach ($images as $key => $image) {
             $flag = true;
@@ -720,7 +720,7 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                     $attachmentId = $image_is_exist;
                 } else {
                     $file = array();
-                    $file['name'] = $key . "-gallery-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
+                    $file['name'] = $i . "-gallery-image-" . get_post_meta($product_id, "bigcommerce_sku", true) . ".jpg";
                     $file['tmp_name'] = download_url($image_uploade_url . $image);
                     if (!is_wp_error($file['tmp_name'])) {
                         $attachmentId = media_handle_sideload($file);
@@ -730,9 +730,9 @@ function cnc_b2b_create_product_for_wooconnerce($product_id, $is_publish)
                 }
                 if (!is_wp_error($attachmentId)) {
                     $gallery_images[] = $attachmentId;
+                    $i++;
                 }
             }
-            $i++;
         }
         update_post_meta($post_id, '_product_image_gallery', implode(',', $gallery_images));
         //-----------------------------------------------------------------------------Thumbnail Image & Gallery Images-----------------------------------------------------------------------//
