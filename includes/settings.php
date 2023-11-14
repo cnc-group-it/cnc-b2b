@@ -116,7 +116,32 @@ $username = get_option("pgs_username")
             </div>
             <div class="pgs_button">
                 <input class="varification_button" type="submit" name="verify" value="Verify">
+                
                 <?php 
+                if(get_option('pgs_products_api_key')):
+                $url="https://personalisedgiftsupply.com/api/reseller-api/v1/user/status";
+                
+                $args = array(
+                    'headers' => array(
+                      'Content-Type' => 'application/json',
+                      'token' => get_option('pgs_products_api_key')
+                    )
+                );
+               // echo '<pre>';
+                $responsedata=wp_remote_get($url,$args);
+                //print_r($responsedata);
+                $data=wp_remote_retrieve_body($responsedata);
+                $body = json_decode($data,1);
+                
+                //print_r($body);
+                ?>
+                <div class="varification_wrapper">
+                <?php
+                echo $body["message"];
+                ?>
+                </div>
+                <?php
+                /*
                 if($varify == "1"){
                     ?>
                     <div class="varification_wrapper"><span class="varification varification-true"></span>Validation Successful</div>
@@ -126,7 +151,8 @@ $username = get_option("pgs_username")
                     <div class="varification_wrapper"><span class="varification varification-false"></span> Validation Fail</div>
                     <?php
                 }
-                
+                */
+                endif;
                 ?>
             </div>
             <?php
