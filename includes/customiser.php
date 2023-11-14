@@ -391,7 +391,7 @@ function cnc_b2b_add_personalise_button_product_page()
 
                         <div class="width_100 show_hide<?php echo $i; ?>">
                             <?php $placeholder = empty($postdata['sample_text_'.$i]) ? "Line ".$i : $postdata['sample_text_'.$i]; ?>
-                            <input placeholder="<?php echo $placeholder ?>" class="font_value" data-id="<?php echo $i; ?>" value="<?php $postdata['sample_text_' . $i]; ?>" maxlength="<?php echo $postdata['max_character_' . $i]; ?>" />
+                            <input placeholder="<?php echo $placeholder  ?>" class="font_value" data-id="<?php echo $i; ?>" value="<?php $postdata['sample_text_' . $i]; ?>" maxlength="<?php echo $postdata['max_character_' . $i]; ?>" />
                         </div>
 
                         <?php
